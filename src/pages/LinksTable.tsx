@@ -772,7 +772,7 @@ const LinksTable = () => {
               >
                 <Home className="w-5 h-5 text-primary" />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-                  CampaignOptimizer
+                  Vneshka.Pro
                 </span>
               </Link>
             </div>
