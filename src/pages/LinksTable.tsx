@@ -1,11 +1,18 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
-import { 
+import axios from "axios";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@/components/ui/table";
+import {
   ChevronDown,
-  Home, 
-  Plus, 
+  Home,
+  Plus,
   Instagram,
   Youtube,
   MessageCircle as Telegram,
@@ -20,11 +27,17 @@ import {
   GripVertical,
   Check,
   User,
-  RefreshCw
+  RefreshCw,
 } from "lucide-react";
 import * as CollapsiblePrimitive from "@radix-ui/react-collapsible";
 import { toast } from "sonner";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
 import {
@@ -34,16 +47,16 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent
-} from '@dnd-kit/core';
+  DragEndEvent,
+} from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
-  verticalListSortingStrategy
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 const Collapsible = CollapsiblePrimitive.Root;
 const CollapsibleTrigger = CollapsiblePrimitive.CollapsibleTrigger;
@@ -71,18 +84,22 @@ interface Product {
   campaigns: Campaign[];
 }
 
-const SortableProductItem = ({ product, isOpen, onToggle }: { 
-  product: Product; 
-  isOpen: boolean; 
-  onToggle: () => void; 
+interface ProductsInfo {
+  linksGeneratedMonth: number;
+  linksGeneratedAll: number;
+}
+
+const SortableProductItem = ({
+  product,
+  isOpen,
+  onToggle,
+}: {
+  product: Product;
+  isOpen: boolean;
+  onToggle: () => void;
 }) => {
-  const { 
-    attributes, 
-    listeners, 
-    setNodeRef, 
-    transform, 
-    transition 
-  } = useSortable({ id: product.id });
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: product.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -90,9 +107,9 @@ const SortableProductItem = ({ product, isOpen, onToggle }: {
   };
 
   return (
-    <div 
-      ref={setNodeRef} 
-      style={style} 
+    <div
+      ref={setNodeRef}
+      style={style}
       className="bg-white rounded-xl border border-gray-200 shadow-md transition-all hover:shadow-lg"
     >
       <div className="flex items-center p-4">
@@ -103,13 +120,15 @@ const SortableProductItem = ({ product, isOpen, onToggle }: {
         >
           <GripVertical className="w-5 h-5" />
         </div>
-        
+
         <div className="flex-1 min-w-0">
-          <h2 className="font-semibold text-lg text-gray-800 truncate">{product.title}</h2>
+          <h2 className="font-semibold text-lg text-gray-800 truncate">
+            {product.title}
+          </h2>
           <div className="flex items-center mt-1">
-            <a 
-              href={product.url} 
-              target="_blank" 
+            <a
+              href={product.url}
+              target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-primary flex items-center gap-1 hover:underline truncate"
             >
@@ -118,16 +137,18 @@ const SortableProductItem = ({ product, isOpen, onToggle }: {
             </a>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2 ml-4">
           <CollapsibleTrigger asChild>
             <button
               onClick={onToggle}
               className="ml-4 p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              <ChevronDown className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${
-                isOpen ? "transform rotate-180" : ""
-              }`} />
+              <ChevronDown
+                className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${
+                  isOpen ? "transform rotate-180" : ""
+                }`}
+              />
             </button>
           </CollapsibleTrigger>
         </div>
@@ -136,19 +157,23 @@ const SortableProductItem = ({ product, isOpen, onToggle }: {
   );
 };
 
-const SortableCampaignRow = ({ campaign, productId, onUpdatePostLink, onRefreshStats }: { 
-  campaign: Campaign; 
+const SortableCampaignRow = ({
+  campaign,
+  productId,
+  onUpdatePostLink,
+  onRefreshStats,
+}: {
+  campaign: Campaign;
   productId: string;
-  onUpdatePostLink: (productId: string, campaignId: string, postLink: string) => void;
+  onUpdatePostLink: (
+    productId: string,
+    campaignId: string,
+    postLink: string
+  ) => void;
   onRefreshStats: (productId: string, campaignId: string) => void;
 }) => {
-  const { 
-    attributes, 
-    listeners, 
-    setNodeRef, 
-    transform, 
-    transition 
-  } = useSortable({ id: campaign.id });
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: campaign.id });
 
   const [isEditingPostLink, setIsEditingPostLink] = useState(false);
   const [postLinkValue, setPostLinkValue] = useState(campaign.postLink || "");
@@ -188,7 +213,7 @@ const SortableCampaignRow = ({ campaign, productId, onUpdatePostLink, onRefreshS
   return (
     <TableRow ref={setNodeRef} style={style}>
       <TableCell className="w-[5%]">
-        <div 
+        <div
           {...attributes}
           {...listeners}
           className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600"
@@ -204,10 +229,10 @@ const SortableCampaignRow = ({ campaign, productId, onUpdatePostLink, onRefreshS
           <div>
             <div className="font-medium">
               {campaign.advertiserLink ? (
-                <a 
-                  href={campaign.advertiserLink} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href={campaign.advertiserLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:underline text-primary"
                 >
                   {campaign.advertiser}
@@ -234,10 +259,10 @@ const SortableCampaignRow = ({ campaign, productId, onUpdatePostLink, onRefreshS
             ) : (
               <div className="flex items-center mt-1">
                 {campaign.postLink ? (
-                  <a 
-                    href={campaign.postLink} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
+                  <a
+                    href={campaign.postLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-xs text-gray-500 hover:underline flex items-center gap-1"
                   >
                     <ExternalLink className="w-3 h-3" />
@@ -263,7 +288,9 @@ const SortableCampaignRow = ({ campaign, productId, onUpdatePostLink, onRefreshS
               )}
               {campaign.cost && (
                 <div className="flex items-center gap-1">
-                  <span className="font-medium text-gray-600">{campaign.cost.toLocaleString()}₽</span>
+                  <span className="font-medium text-gray-600">
+                    {campaign.cost.toLocaleString()}₽
+                  </span>
                 </div>
               )}
             </div>
@@ -277,7 +304,7 @@ const SortableCampaignRow = ({ campaign, productId, onUpdatePostLink, onRefreshS
               {campaign.deeplink}
             </div>
           </div>
-          <button 
+          <button
             onClick={() => copyToClipboard(campaign.deeplink)}
             className="p-1.5 text-gray-500 hover:text-primary hover:bg-primary/10 rounded-full transition-colors"
           >
@@ -293,21 +320,26 @@ const SortableCampaignRow = ({ campaign, productId, onUpdatePostLink, onRefreshS
                 <Eye className="w-3 h-3" />
                 Всего
               </div>
-              <div className="font-semibold">{campaign.totalViews.toLocaleString()}</div>
+              <div className="font-semibold">
+                {campaign.totalViews.toLocaleString()}
+              </div>
             </div>
             <div className="bg-gray-50 p-2 rounded-lg">
               <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
-                <BarChart className="w-3 h-3" />
-                7 дней
+                <BarChart className="w-3 h-3" />7 дней
               </div>
-              <div className="font-semibold">{campaign.last7DaysViews.toLocaleString()}</div>
+              <div className="font-semibold">
+                {campaign.last7DaysViews.toLocaleString()}
+              </div>
             </div>
             <div className="bg-gray-50 p-2 rounded-lg">
               <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
                 <Clock className="w-3 h-3" />
                 24 часа
               </div>
-              <div className="font-semibold">{campaign.lastDayViews.toLocaleString()}</div>
+              <div className="font-semibold">
+                {campaign.lastDayViews.toLocaleString()}
+              </div>
             </div>
           </div>
           <button
@@ -323,59 +355,24 @@ const SortableCampaignRow = ({ campaign, productId, onUpdatePostLink, onRefreshS
 };
 
 const LinksTable = () => {
-  const [products, setProducts] = useState<Product[]>([
-    {
-      id: "1",
-      title: "Бусы из натуральных камней Горный Хрусталь",
-      url: "https://www.wildberries.ru/catalog/225963900/detail.aspx",
-      campaigns: [
-        {
-          id: "1-1",
-          platform: "instagram",
-          advertiser: "beauty_blog",
-          advertiserLink: "https://instagram.com/beauty_blog",
-          startDate: new Date(2023, 5, 15),
-          cost: 15000,
-          deeplink: "https://vneshka.pro/toplink/a1ba3b4a-4677-41b8-9de4-9ef5bb3f1a98",
-          totalViews: 1250,
-          last7DaysViews: 320,
-          lastDayViews: 42,
-          durationDays: 30
-        },
-        {
-          id: "1-2",
-          platform: "telegram",
-          advertiser: "Fashion Channel",
-          startDate: new Date(2023, 6, 10),
-          deeplink: "https://vneshka.pro/toplink/d1872c4e-1bab-499b-8e47-b01f9fa6328b",
-          totalViews: 850,
-          last7DaysViews: 105,
-          lastDayViews: 12,
-          durationDays: 14
-        }
-      ]
-    },
-    {
-      id: "2",
-      title: "Сумка кожаная женская",
-      url: "https://www.wildberries.ru/catalog/18383292/detail.aspx",
-      campaigns: [
-        {
-          id: "2-1",
-          platform: "youtube",
-          advertiser: "FashionReview",
-          advertiserLink: "https://youtube.com/c/fashionreview",
-          startDate: new Date(2023, 7, 1),
-          cost: 25000,
-          deeplink: "https://vneshka.pro/toplink/c2d83b5a-2b88-4c99-ae37-c12e8a4f329a",
-          totalViews: 3200,
-          last7DaysViews: 580,
-          lastDayViews: 65,
-          durationDays: 45
-        }
-      ]
+  const [products, setProducts] = useState<Product[]>([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "https://vneshka.pro/api/v1/controlpanel/products"
+      ); // Замените на реальный URL
+      setProducts(response.data); // Сохраняем полученные данные в состоянии
+    } catch (error) {
+      alert("error");
+      setProducts([]);
     }
-  ]);
+  };
+
+  useEffect(() => {
+    fetchData();
+    fetchProductsInfo(); // Вызываем функцию получения данных
+  }, []);
 
   const [openCollapsible, setOpenCollapsible] = useState<string | null>(null);
   const [newProduct, setNewProduct] = useState({ title: "", url: "" });
@@ -392,20 +389,41 @@ const LinksTable = () => {
     advertiser: "",
     advertiserLink: "",
     startDate: "",
-    cost: ""
+    cost: "",
   });
-  
+
   const [isAddProductDialogOpen, setIsAddProductDialogOpen] = useState(false);
   const [isAddCampaignDialogOpen, setIsAddCampaignDialogOpen] = useState(false);
-  const [isGeneratedLinkDialogOpen, setIsGeneratedLinkDialogOpen] = useState(false);
+  const [isGeneratedLinkDialogOpen, setIsGeneratedLinkDialogOpen] =
+    useState(false);
   const [generatedLink, setGeneratedLink] = useState("");
-  const [isLimitExceededDialogOpen, setIsLimitExceededDialogOpen] = useState(false);
-  const [isRefreshingStats, setIsRefreshingStats] = useState<string | null>(null);
-  
+  const [isLimitExceededDialogOpen, setIsLimitExceededDialogOpen] =
+    useState(false);
+  const [isRefreshingStats, setIsRefreshingStats] = useState<string | null>(
+    null
+  );
+
   const userInfo = {
     username: "MarketingSeller",
     linksGenerated: 5,
-    linksLimit: 10
+    linksLimit: 10,
+  };
+
+  const [productsInfo, setProductsInfo] = useState<ProductsInfo[]>({
+    username: "MarketingSeller",
+    linksGenerated: 5,
+    linksLimit: 10,
+  });
+
+  const fetchProductsInfo = async () => {
+    try {
+      const response = await axios.get(
+        "https://vneshka.pro/api/v1/controlpanel/products/info"
+      ); // Замените на реальный URL
+      setProductsInfo(response.data); // Сохраняем полученные данные в состоянии
+    } catch (error) {
+      alert("error");
+    }
   };
 
   const toggleCollapsible = (id: string) => {
@@ -416,201 +434,236 @@ const LinksTable = () => {
     }
   };
 
-  const handleAddProduct = () => {
+  const handleAddProduct = async () => {
     if (!newProduct.title || !newProduct.url) {
       toast.error("Пожалуйста, заполните все обязательные поля");
       return;
     }
 
     const newProductObj: Product = {
-      id: Date.now().toString(),
       title: newProduct.title,
       url: newProduct.url,
-      campaigns: []
+      campaigns: [],
     };
 
-    setProducts([newProductObj, ...products]);
+    const response = await axios.post(
+      "https://vneshka.pro/api/v1/controlpanel/products",
+      newProductObj
+    );
+
+    const newRow = response.data;
+
+    setProducts([newRow, ...products]);
     setNewProduct({ title: "", url: "" });
     toast.success("Товар успешно добавлен");
-    
+
     setIsAddProductDialogOpen(false);
   };
 
-  const handleAddCampaign = () => {
-    if (!newCampaign.productId || !newCampaign.advertiser || !newCampaign.platform) {
+  const handleAddCampaign = async () => {
+    if (
+      !newCampaign.productId ||
+      !newCampaign.advertiser ||
+      !newCampaign.platform
+    ) {
       toast.error("Пожалуйста, заполните все обязательные поля");
       return;
     }
 
-    if (userInfo.linksGenerated >= userInfo.linksLimit) {
+    if (productsInfo.linksGeneratedMonth >= productsInfo.linksGeneratedAll) {
       setIsAddCampaignDialogOpen(false);
       setIsLimitExceededDialogOpen(true);
       return;
     }
 
-    const generatedDeeplink = `https://vneshka.pro/toplink/${generateRandomString()}`;
+    const newCampaignObj: Campaign = {
+      platform: newCampaign.platform,
+      advertiser: newCampaign.advertiser,
+      advertiserLink: newCampaign.advertiserLink,
+      startDate: newCampaign.startDate
+        ? new Date(newCampaign.startDate)
+        : undefined,
+      cost: newCampaign.cost ? Number(newCampaign.cost) : 0,
+    };
 
-    const updatedProducts = products.map(product => {
+    const response = await axios.post(
+      "https://vneshka.pro/api/v1/controlpanel/products/" +
+        newCampaign.productId +
+        "/deeplink",
+      newCampaignObj
+    );
+
+    const newRow = response.data;
+
+    const updatedProducts = products.map((product) => {
       if (product.id === newCampaign.productId) {
-        const newCampaignObj: Campaign = {
-          id: `${product.id}-${product.campaigns.length + 1}`,
-          platform: newCampaign.platform,
-          advertiser: newCampaign.advertiser,
-          advertiserLink: newCampaign.advertiserLink,
-          startDate: newCampaign.startDate ? new Date(newCampaign.startDate) : undefined,
-          cost: newCampaign.cost ? Number(newCampaign.cost) : undefined,
-          deeplink: generatedDeeplink,
-          totalViews: 0,
-          last7DaysViews: 0,
-          lastDayViews: 0,
-          durationDays: 0
-        };
-
         return {
           ...product,
-          campaigns: [newCampaignObj, ...product.campaigns]
+          campaigns: [newRow, ...product.campaigns],
         };
       }
       return product;
     });
 
     setProducts(updatedProducts);
-    setGeneratedLink(generatedDeeplink);
-    userInfo.linksGenerated += 1;
-    
+    setGeneratedLink(newRow.deeplink);
+    productsInfo.linksGeneratedMonth += 1;
+    productsInfo.linksGeneratedAll += 1;
+
     setNewCampaign({
       productId: "",
       platform: "instagram",
       advertiser: "",
       advertiserLink: "",
       startDate: "",
-      cost: ""
+      cost: "",
     });
-    
+
     setIsAddCampaignDialogOpen(false);
     setIsGeneratedLinkDialogOpen(true);
-    
+
     toast.success("Кампания успешно добавлена");
   };
 
-  const updateCampaignPostLink = (productId: string, campaignId: string, postLink: string) => {
-    const updatedProducts = products.map(product => {
+  const updateCampaignPostLink = async (
+    productId: string,
+    campaignId: string,
+    postLink: string
+  ) => {
+    if (!postLink) {
+      toast.error("Пожалуйста, заполните ссылку");
+      return;
+    }
+
+    const newCampaignObj: Campaign = {
+      postLink: postLink,
+    };
+
+    const response = await axios.post(
+      "https://vneshka.pro/api/v1/controlpanel/products/" +
+        productId +
+        "/campaigns/" +
+        campaignId +
+        "/post-link",
+      newCampaignObj
+    );
+
+    const updatedProducts = products.map((product) => {
       if (product.id === productId) {
-        const updatedCampaigns = product.campaigns.map(campaign => {
+        const updatedCampaigns = product.campaigns.map((campaign) => {
           if (campaign.id === campaignId) {
-            return {
-              ...campaign,
-              postLink
-            };
+            campaign = response.data;
           }
           return campaign;
         });
-        
+
         return {
           ...product,
-          campaigns: updatedCampaigns
+          campaigns: updatedCampaigns,
         };
       }
       return product;
     });
-    
+
     setProducts(updatedProducts);
     toast.success("Ссылка на пост добавлена");
   };
 
-  const refreshCampaignStats = (productId: string, campaignId: string) => {
-    const totalIncrement = Math.floor(Math.random() * 50) + 10;
-    const last7DaysIncrement = Math.floor(Math.random() * 20) + 5;
-    const lastDayIncrement = Math.floor(Math.random() * 10) + 1;
+  const refreshCampaignStats = async (
+    productId: string,
+    campaignId: string
+  ) => {
+    const response = await axios.get(
+      "https://vneshka.pro/api/v1/controlpanel/products/" +
+        productId +
+        "/campaigns/" +
+        campaignId
+    );
 
-    const updatedProducts = products.map(product => {
+    const updatedProducts = products.map((product) => {
       if (product.id === productId) {
-        const updatedCampaigns = product.campaigns.map(campaign => {
+        const updatedCampaigns = product.campaigns.map((campaign) => {
           if (campaign.id === campaignId) {
-            return {
-              ...campaign,
-              totalViews: campaign.totalViews + totalIncrement,
-              last7DaysViews: campaign.last7DaysViews + last7DaysIncrement,
-              lastDayViews: campaign.lastDayViews + lastDayIncrement
-            };
+            campaign = response.data;
           }
           return campaign;
         });
-        
+
         return {
           ...product,
-          campaigns: updatedCampaigns
+          campaigns: updatedCampaigns,
         };
       }
       return product;
     });
-    
+
     setProducts(updatedProducts);
     toast.success("Статистика успешно обновлена");
   };
 
-  const refreshAllCampaignsStats = (productId: string) => {
+  const refreshAllCampaignsStats = async (productId: string) => {
     setIsRefreshingStats(productId);
-    
-    setTimeout(() => {
-      const updatedProducts = products.map(product => {
-        if (product.id === productId) {
-          const updatedCampaigns = product.campaigns.map(campaign => {
-            const totalIncrement = Math.floor(Math.random() * 50) + 10;
-            const last7DaysIncrement = Math.floor(Math.random() * 20) + 5;
-            const lastDayIncrement = Math.floor(Math.random() * 10) + 1;
-            
-            return {
-              ...campaign,
-              totalViews: campaign.totalViews + totalIncrement,
-              last7DaysViews: campaign.last7DaysViews + last7DaysIncrement,
-              lastDayViews: campaign.lastDayViews + lastDayIncrement
-            };
-          });
-          
-          return {
-            ...product,
-            campaigns: updatedCampaigns
-          };
-        }
-        return product;
-      });
-      
-      setProducts(updatedProducts);
-      setIsRefreshingStats(null);
-      toast.success("Статистика всех кампаний обновлена");
-    }, 800);
+
+    const response = await axios.get(
+      "https://vneshka.pro/api/v1/controlpanel/products/" + productId
+    );
+
+    const updatedProducts = products.map((product) => {
+      if (product.id === productId) {
+        product = response.data;
+      }
+      return product;
+    });
+
+    setProducts(updatedProducts);
+    setIsRefreshingStats(null);
+    toast.success("Статистика всех кампаний обновлена");
   };
 
   const moveProduct = (index: number, direction: "up" | "down") => {
-    if ((direction === "up" && index === 0) || 
-        (direction === "down" && index === products.length - 1)) {
+    if (
+      (direction === "up" && index === 0) ||
+      (direction === "down" && index === products.length - 1)
+    ) {
       return;
     }
 
     const newProducts = [...products];
     const targetIndex = direction === "up" ? index - 1 : index + 1;
-    [newProducts[index], newProducts[targetIndex]] = [newProducts[targetIndex], newProducts[index]];
+    [newProducts[index], newProducts[targetIndex]] = [
+      newProducts[targetIndex],
+      newProducts[index],
+    ];
     setProducts(newProducts);
   };
 
-  const moveCampaign = (productId: string, campaignIndex: number, direction: "up" | "down") => {
-    const productIndex = products.findIndex(p => p.id === productId);
+  const moveCampaign = (
+    productId: string,
+    campaignIndex: number,
+    direction: "up" | "down"
+  ) => {
+    const productIndex = products.findIndex((p) => p.id === productId);
     if (productIndex === -1) return;
 
     const campaigns = [...products[productIndex].campaigns];
-    if ((direction === "up" && campaignIndex === 0) || 
-        (direction === "down" && campaignIndex === campaigns.length - 1)) {
+    if (
+      (direction === "up" && campaignIndex === 0) ||
+      (direction === "down" && campaignIndex === campaigns.length - 1)
+    ) {
       return;
     }
 
-    const targetIndex = direction === "up" ? campaignIndex - 1 : campaignIndex + 1;
-    [campaigns[campaignIndex], campaigns[targetIndex]] = [campaigns[targetIndex], campaigns[campaignIndex]];
+    const targetIndex =
+      direction === "up" ? campaignIndex - 1 : campaignIndex + 1;
+    [campaigns[campaignIndex], campaigns[targetIndex]] = [
+      campaigns[targetIndex],
+      campaigns[campaignIndex],
+    ];
 
     const updatedProducts = [...products];
     updatedProducts[productIndex] = {
       ...updatedProducts[productIndex],
-      campaigns
+      campaigns,
     };
 
     setProducts(updatedProducts);
@@ -621,22 +674,17 @@ const LinksTable = () => {
     toast.success("Скопировано в буфер обмена");
   };
 
-  const generateRandomString = () => {
-    return Math.random().toString(36).substring(2, 15) + 
-           Math.random().toString(36).substring(2, 15);
-  };
-
   const deleteProduct = (productId: string) => {
-    setProducts(products.filter(p => p.id !== productId));
+    setProducts(products.filter((p) => p.id !== productId));
     toast.success("Товар удален");
   };
 
   const deleteCampaign = (productId: string, campaignId: string) => {
-    const updatedProducts = products.map(product => {
+    const updatedProducts = products.map((product) => {
       if (product.id === productId) {
         return {
           ...product,
-          campaigns: product.campaigns.filter(c => c.id !== campaignId)
+          campaigns: product.campaigns.filter((c) => c.id !== campaignId),
         };
       }
       return product;
@@ -676,12 +724,12 @@ const LinksTable = () => {
 
   const handleProductDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-    
+
     if (over && active.id !== over.id) {
       setProducts((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);
-        
+
         return arrayMove(items, oldIndex, newIndex);
       });
     }
@@ -689,14 +737,18 @@ const LinksTable = () => {
 
   const handleCampaignDragEnd = (event: DragEndEvent, productId: string) => {
     const { active, over } = event;
-    
+
     if (over && active.id !== over.id) {
       setProducts((products) => {
         return products.map((product) => {
           if (product.id === productId) {
-            const oldIndex = product.campaigns.findIndex((campaign) => campaign.id === active.id);
-            const newIndex = product.campaigns.findIndex((campaign) => campaign.id === over.id);
-            
+            const oldIndex = product.campaigns.findIndex(
+              (campaign) => campaign.id === active.id
+            );
+            const newIndex = product.campaigns.findIndex(
+              (campaign) => campaign.id === over.id
+            );
+
             return {
               ...product,
               campaigns: arrayMove(product.campaigns, oldIndex, newIndex),
@@ -714,16 +766,25 @@ const LinksTable = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link to="/" className="font-display text-xl font-bold flex items-center gap-2 text-gray-900">
+              <Link
+                to="/"
+                className="font-display text-xl font-bold flex items-center gap-2 text-gray-900"
+              >
                 <Home className="w-5 h-5 text-primary" />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">CampaignOptimizer</span>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+                  CampaignOptimizer
+                </span>
               </Link>
             </div>
-            
+
             <div className="flex items-center gap-5">
               <div className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary">
                 <Link2 className="w-4 h-4" />
-                <span className="text-sm font-medium">Ссылок сгенерировано в этом месяце: {userInfo.linksGenerated}/{userInfo.linksLimit}</span>
+                <span className="text-sm font-medium">
+                  Ссылок сгенерировано в этом месяце:{" "}
+                  {productsInfo.linksGeneratedMonth}/
+                  {productsInfo.linksGeneratedAll}
+                </span>
               </div>
               <div className="flex items-center gap-2 text-gray-700">
                 <User className="w-4 h-4" />
@@ -738,10 +799,17 @@ const LinksTable = () => {
         <div className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
           <div className="p-8 border-b border-gray-100 bg-gradient-to-r from-primary/20 via-primary/10 to-transparent flex justify-between items-center">
             <div>
-              <h1 className="font-display text-2xl font-bold text-gray-900">Ваши товары и рекламные кампании</h1>
-              <p className="text-gray-600 mt-1">Ведите учет рекламных кампаний и отслеживайте их эффективность</p>
+              <h1 className="font-display text-2xl font-bold text-gray-900">
+                Ваши товары и рекламные кампании
+              </h1>
+              <p className="text-gray-600 mt-1">
+                Ведите учет рекламных кампаний и отслеживайте их эффективность
+              </p>
             </div>
-            <Dialog open={isAddProductDialogOpen} onOpenChange={setIsAddProductDialogOpen}>
+            <Dialog
+              open={isAddProductDialogOpen}
+              onOpenChange={setIsAddProductDialogOpen}
+            >
               <DialogTrigger asChild>
                 <button className="bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-all duration-300 px-6 py-2.5 rounded-full text-white font-medium shadow-lg flex items-center gap-2 hover:shadow-xl transform hover:scale-105">
                   <Plus className="w-4 h-4" />
@@ -750,7 +818,9 @@ const LinksTable = () => {
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle className="text-xl font-display">Добавить новый товар</DialogTitle>
+                  <DialogTitle className="text-xl font-display">
+                    Добавить новый товар
+                  </DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid gap-2">
@@ -760,7 +830,9 @@ const LinksTable = () => {
                     <Input
                       id="title"
                       value={newProduct.title}
-                      onChange={(e) => setNewProduct({...newProduct, title: e.target.value})}
+                      onChange={(e) =>
+                        setNewProduct({ ...newProduct, title: e.target.value })
+                      }
                       placeholder="Введите название товара или услуги"
                       className="rounded-lg"
                     />
@@ -772,13 +844,15 @@ const LinksTable = () => {
                     <Input
                       id="url"
                       value={newProduct.url}
-                      onChange={(e) => setNewProduct({...newProduct, url: e.target.value})}
+                      onChange={(e) =>
+                        setNewProduct({ ...newProduct, url: e.target.value })
+                      }
                       placeholder="https://example.com/product"
                       className="rounded-lg"
                     />
                   </div>
                 </div>
-                <button 
+                <button
                   onClick={handleAddProduct}
                   className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md"
                 >
@@ -792,16 +866,19 @@ const LinksTable = () => {
         <div className="mt-8 space-y-4">
           {products.length === 0 ? (
             <div className="text-center py-12 bg-white rounded-2xl border border-gray-200 shadow-md">
-              <p className="text-gray-500">У вас пока нет добавленных товаров. Нажмите "Добавить товар", чтобы начать.</p>
+              <p className="text-gray-500">
+                У вас пока нет добавленных товаров. Нажмите "Добавить товар",
+                чтобы начать.
+              </p>
             </div>
           ) : (
-            <DndContext 
+            <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
               onDragEnd={handleProductDragEnd}
             >
-              <SortableContext 
-                items={products.map(product => product.id)}
+              <SortableContext
+                items={products.map((product) => product.id)}
                 strategy={verticalListSortingStrategy}
               >
                 {products.map((product) => (
@@ -810,27 +887,40 @@ const LinksTable = () => {
                     open={openCollapsible === product.id}
                     onOpenChange={() => toggleCollapsible(product.id)}
                   >
-                    <SortableProductItem 
-                      product={product} 
-                      isOpen={openCollapsible === product.id} 
-                      onToggle={() => toggleCollapsible(product.id)} 
+                    <SortableProductItem
+                      product={product}
+                      isOpen={openCollapsible === product.id}
+                      onToggle={() => toggleCollapsible(product.id)}
                     />
 
                     <CollapsibleContent>
                       <div className="pl-10 pr-2 py-3 animate-fade-up">
                         <div className="flex justify-between items-center mb-4">
                           <div className="flex items-center gap-2">
-                            <h3 className="font-semibold text-gray-700">Рекламные кампании</h3>
-                            <button 
-                              onClick={() => refreshAllCampaignsStats(product.id)}
+                            <h3 className="font-semibold text-gray-700">
+                              Рекламные кампании
+                            </h3>
+                            <button
+                              onClick={() =>
+                                refreshAllCampaignsStats(product.id)
+                              }
                               className="p-1.5 text-gray-500 hover:text-primary hover:bg-primary/10 rounded-full transition-colors"
                               disabled={isRefreshingStats === product.id}
                             >
-                              <RefreshCw className={`w-4 h-4 ${isRefreshingStats === product.id ? 'animate-spin' : ''}`} />
+                              <RefreshCw
+                                className={`w-4 h-4 ${
+                                  isRefreshingStats === product.id
+                                    ? "animate-spin"
+                                    : ""
+                                }`}
+                              />
                             </button>
                           </div>
-                          
-                          <Dialog open={isAddCampaignDialogOpen} onOpenChange={setIsAddCampaignDialogOpen}>
+
+                          <Dialog
+                            open={isAddCampaignDialogOpen}
+                            onOpenChange={setIsAddCampaignDialogOpen}
+                          >
                             <DialogTrigger asChild>
                               <button className="bg-gradient-to-r from-primary/20 to-primary/10 hover:from-primary/30 hover:to-primary/20 text-primary transition-colors px-4 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1 shadow-sm hover:shadow-md">
                                 <Plus className="w-4 h-4" />
@@ -839,26 +929,44 @@ const LinksTable = () => {
                             </DialogTrigger>
                             <DialogContent className="sm:max-w-[500px]">
                               <DialogHeader>
-                                <DialogTitle className="text-xl font-display">Новая рекламная кампания</DialogTitle>
+                                <DialogTitle className="text-xl font-display">
+                                  Новая рекламная кампания
+                                </DialogTitle>
                               </DialogHeader>
                               <div className="grid gap-4 py-4">
                                 <input
                                   type="hidden"
                                   value={product.id}
-                                  onChange={() => setNewCampaign({...newCampaign, productId: product.id})}
+                                  onChange={() =>
+                                    setNewCampaign({
+                                      ...newCampaign,
+                                      productId: product.id,
+                                    })
+                                  }
                                 />
                                 <div className="grid grid-cols-2 gap-4">
                                   <div className="grid gap-2">
-                                    <label htmlFor="platform" className="text-sm font-medium">
+                                    <label
+                                      htmlFor="platform"
+                                      className="text-sm font-medium"
+                                    >
                                       Площадка *
                                     </label>
                                     <select
                                       id="platform"
                                       value={newCampaign.platform}
-                                      onChange={(e) => setNewCampaign({...newCampaign, productId: product.id, platform: e.target.value as any})}
+                                      onChange={(e) =>
+                                        setNewCampaign({
+                                          ...newCampaign,
+                                          productId: product.id,
+                                          platform: e.target.value as any,
+                                        })
+                                      }
                                       className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                                     >
-                                      <option value="instagram">Instagram</option>
+                                      <option value="instagram">
+                                        Instagram
+                                      </option>
                                       <option value="tiktok">TikTok</option>
                                       <option value="youtube">YouTube</option>
                                       <option value="telegram">Telegram</option>
@@ -867,59 +975,95 @@ const LinksTable = () => {
                                     </select>
                                   </div>
                                   <div className="grid gap-2">
-                                    <label htmlFor="advertiser" className="text-sm font-medium">
+                                    <label
+                                      htmlFor="advertiser"
+                                      className="text-sm font-medium"
+                                    >
                                       Рекламодатель *
                                     </label>
                                     <Input
                                       id="advertiser"
                                       value={newCampaign.advertiser}
-                                      onChange={(e) => setNewCampaign({...newCampaign, productId: product.id, advertiser: e.target.value})}
+                                      onChange={(e) =>
+                                        setNewCampaign({
+                                          ...newCampaign,
+                                          productId: product.id,
+                                          advertiser: e.target.value,
+                                        })
+                                      }
                                       placeholder="Например: beauty_blog"
                                       className="rounded-lg"
                                     />
                                   </div>
                                 </div>
                                 <div className="grid gap-2">
-                                  <label htmlFor="advertiserLink" className="text-sm font-medium">
+                                  <label
+                                    htmlFor="advertiserLink"
+                                    className="text-sm font-medium"
+                                  >
                                     Ссылка на профиль рекламодателя
                                   </label>
                                   <Input
                                     id="advertiserLink"
                                     value={newCampaign.advertiserLink}
-                                    onChange={(e) => setNewCampaign({...newCampaign, productId: product.id, advertiserLink: e.target.value})}
+                                    onChange={(e) =>
+                                      setNewCampaign({
+                                        ...newCampaign,
+                                        productId: product.id,
+                                        advertiserLink: e.target.value,
+                                      })
+                                    }
                                     placeholder="https://instagram.com/example"
                                     className="rounded-lg"
                                   />
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                   <div className="grid gap-2">
-                                    <label htmlFor="startDate" className="text-sm font-medium">
+                                    <label
+                                      htmlFor="startDate"
+                                      className="text-sm font-medium"
+                                    >
                                       Дата начала
                                     </label>
                                     <Input
                                       id="startDate"
                                       type="date"
                                       value={newCampaign.startDate}
-                                      onChange={(e) => setNewCampaign({...newCampaign, productId: product.id, startDate: e.target.value})}
+                                      onChange={(e) =>
+                                        setNewCampaign({
+                                          ...newCampaign,
+                                          productId: product.id,
+                                          startDate: e.target.value,
+                                        })
+                                      }
                                       className="rounded-lg"
                                     />
                                   </div>
                                   <div className="grid gap-2">
-                                    <label htmlFor="cost" className="text-sm font-medium">
+                                    <label
+                                      htmlFor="cost"
+                                      className="text-sm font-medium"
+                                    >
                                       Стоимость размещения (₽)
                                     </label>
                                     <Input
                                       id="cost"
                                       type="number"
                                       value={newCampaign.cost}
-                                      onChange={(e) => setNewCampaign({...newCampaign, productId: product.id, cost: e.target.value})}
+                                      onChange={(e) =>
+                                        setNewCampaign({
+                                          ...newCampaign,
+                                          productId: product.id,
+                                          cost: e.target.value,
+                                        })
+                                      }
                                       placeholder="Например: 15000"
                                       className="rounded-lg"
                                     />
                                   </div>
                                 </div>
                               </div>
-                              <button 
+                              <button
                                 onClick={handleAddCampaign}
                                 className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md"
                               >
@@ -928,20 +1072,27 @@ const LinksTable = () => {
                             </DialogContent>
                           </Dialog>
                         </div>
-                        
+
                         {product.campaigns.length === 0 ? (
                           <div className="text-center py-6 bg-gray-50 rounded-lg">
-                            <p className="text-gray-500">У данного товара пока нет кампаний. Нажмите "Добавить кампанию", чтобы создать.</p>
+                            <p className="text-gray-500">
+                              У данного товара пока нет кампаний. Нажмите
+                              "Добавить кампанию", чтобы создать.
+                            </p>
                           </div>
                         ) : (
                           <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                            <DndContext 
+                            <DndContext
                               sensors={sensors}
                               collisionDetection={closestCenter}
-                              onDragEnd={(event) => handleCampaignDragEnd(event, product.id)}
+                              onDragEnd={(event) =>
+                                handleCampaignDragEnd(event, product.id)
+                              }
                             >
-                              <SortableContext 
-                                items={product.campaigns.map(campaign => campaign.id)}
+                              <SortableContext
+                                items={product.campaigns.map(
+                                  (campaign) => campaign.id
+                                )}
                                 strategy={verticalListSortingStrategy}
                               >
                                 <Table>
@@ -950,7 +1101,9 @@ const LinksTable = () => {
                                       <TableHead className="w-[5%]"></TableHead>
                                       <TableHead>Кампания</TableHead>
                                       <TableHead>Уникальная ссылка</TableHead>
-                                      <TableHead>Статистика переходов</TableHead>
+                                      <TableHead>
+                                        Статистика переходов
+                                      </TableHead>
                                     </TableRow>
                                   </TableHeader>
                                   <TableBody>
@@ -959,7 +1112,9 @@ const LinksTable = () => {
                                         key={campaign.id}
                                         campaign={campaign}
                                         productId={product.id}
-                                        onUpdatePostLink={updateCampaignPostLink}
+                                        onUpdatePostLink={
+                                          updateCampaignPostLink
+                                        }
                                         onRefreshStats={refreshCampaignStats}
                                       />
                                     ))}
@@ -978,22 +1133,30 @@ const LinksTable = () => {
           )}
         </div>
       </div>
-      
+
       {/* Generated Link Dialog */}
-      <Dialog open={isGeneratedLinkDialogOpen} onOpenChange={setIsGeneratedLinkDialogOpen}>
+      <Dialog
+        open={isGeneratedLinkDialogOpen}
+        onOpenChange={setIsGeneratedLinkDialogOpen}
+      >
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle className="text-xl font-display">Ссылка сгенерирована</DialogTitle>
+            <DialogTitle className="text-xl font-display">
+              Ссылка сгенерирована
+            </DialogTitle>
           </DialogHeader>
           <div className="py-4">
-            <p className="text-gray-600 mb-4">Ваша уникальная ссылка для рекламной кампании создана. Скопируйте ее и передайте рекламодателю для размещения:</p>
+            <p className="text-gray-600 mb-4">
+              Ваша уникальная ссылка для рекламной кампании создана. Скопируйте
+              ее и передайте рекламодателю для размещения:
+            </p>
             <div className="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
               <div className="flex-1 overflow-hidden">
                 <div className="truncate text-gray-800 font-medium">
                   {generatedLink}
                 </div>
               </div>
-              <button 
+              <button
                 onClick={() => copyToClipboard(generatedLink)}
                 className="p-2 bg-primary/10 text-primary hover:bg-primary/20 rounded-full transition-colors"
               >
@@ -1006,20 +1169,34 @@ const LinksTable = () => {
               <Check className="w-4 h-4" />
               Что дальше?
             </h4>
-            <p className="text-sm text-gray-600">Передайте эту ссылку рекламодателю. Когда рекламная кампания будет запущена, добавьте ссылку на пост, чтобы легко отслеживать источник трафика.</p>
+            <p className="text-sm text-gray-600">
+              Передайте эту ссылку рекламодателю. Когда рекламная кампания будет
+              запущена, добавьте ссылку на пост, чтобы легко отслеживать
+              источник трафика.
+            </p>
           </div>
         </DialogContent>
       </Dialog>
-      
+
       {/* Limit Exceeded Dialog */}
-      <Dialog open={isLimitExceededDialogOpen} onOpenChange={setIsLimitExceededDialogOpen}>
+      <Dialog
+        open={isLimitExceededDialogOpen}
+        onOpenChange={setIsLimitExceededDialogOpen}
+      >
         <DialogContent className="sm:max-w-[400px]">
           <DialogHeader>
-            <DialogTitle className="text-xl font-display text-destructive">Лимит использован</DialogTitle>
+            <DialogTitle className="text-xl font-display text-destructive">
+              Лимит использован
+            </DialogTitle>
           </DialogHeader>
           <div className="py-4">
-            <p className="text-gray-600 mb-4">Вы достигли лимита по количеству сгенерированных ссылок в текущем месяце ({userInfo.linksLimit}).</p>
-            <p className="text-gray-600">Чтобы увеличить лимит, пожалуйста, обновите ваш тарифный план.</p>
+            <p className="text-gray-600 mb-4">
+              Вы достигли лимита по количеству сгенерированных ссылок в текущем
+              месяце ({userInfo.linksLimit}).
+            </p>
+            <p className="text-gray-600">
+              Чтобы увеличить лимит, пожалуйста, обновите ваш тарифный план.
+            </p>
           </div>
           <button className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md">
             Обновить тарифный план
