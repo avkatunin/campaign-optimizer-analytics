@@ -314,34 +314,36 @@ const SortableCampaignRow = ({
       </TableCell>
       <TableCell>
         <div className="flex items-center justify-between">
-          <div className="grid grid-cols-3 gap-2">
-            <div className="bg-gray-50 p-2 rounded-lg">
-              <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
-                <Eye className="w-3 h-3" />
-                Всего
-              </div>
-              <div className="font-semibold">
-                {campaign.totalViews.toLocaleString()}
-              </div>
+          <div className="bg-gray-50 p-2 rounded-lg">
+            <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+              <Eye className="w-3 h-3" />
+              Всего
             </div>
-            <div className="bg-gray-50 p-2 rounded-lg">
-              <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
-                <BarChart className="w-3 h-3" />7 дней
-              </div>
-              <div className="font-semibold">
-                {campaign.last7DaysViews.toLocaleString()}
-              </div>
-            </div>
-            <div className="bg-gray-50 p-2 rounded-lg">
-              <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
-                <Clock className="w-3 h-3" />
-                24 часа
-              </div>
-              <div className="font-semibold">
-                {campaign.lastDayViews.toLocaleString()}
-              </div>
+            <div className="font-semibold">
+              {campaign.totalViews.toLocaleString()}
             </div>
           </div>
+
+          <div className="bg-gray-50 p-2 rounded-lg">
+            <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+              <BarChart className="w-3 h-3" />
+              7дней
+            </div>
+            <div className="font-semibold">
+              {campaign.last7DaysViews.toLocaleString()}
+            </div>
+          </div>
+
+          <div className="bg-gray-50 p-2 rounded-lg">
+            <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+              <Clock className="w-3 h-3" />
+              24часа
+            </div>
+            <div className="font-semibold">
+              {campaign.lastDayViews.toLocaleString()}
+            </div>
+          </div>
+
           <button
             onClick={() => onRefreshStats(productId, campaign.id)}
             className="ml-4 p-1.5 text-gray-500 hover:text-primary hover:bg-primary/10 rounded-full transition-colors"
