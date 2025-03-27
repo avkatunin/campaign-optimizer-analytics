@@ -374,7 +374,34 @@ const LinksTable = () => {
   useEffect(() => {
     fetchData();
     fetchProductsInfo(); // Вызываем функцию получения данных
+
+
+    const scriptElement = document.createElement("script");
+    scriptElement.src = "https://telegram.org/js/telegram-widget.js?22";
+    scriptElement.setAttribute("data-telegram-login", "VneshkaProBot");
+    scriptElement.setAttribute("data-size", "large");
+    scriptElement.setAttribute(
+      "data-onauth",
+      "TelegramLoginWidget.dataOnauth(user)"
+    );
+    scriptElement.setAttribute("data-request-access", "write");
+
+    document.body.appendChild(scriptElement);
   }, []);
+
+  window.TelegramLoginWidget = {
+    dataOnauth: (user) => handleTelegramResponse(user),
+  };
+
+  const handleTelegramResponse = async (user) => {
+    console.log(user);
+    const response = await axios.get(
+      "https://vneshka.pro/api/v1/controlpanel/auth?id=" +
+        user.id +
+        "&first_name=" +
+        user.first_name
+    );
+  };
 
   const [openCollapsible, setOpenCollapsible] = useState<string | null>(null);
   const [newProduct, setNewProduct] = useState({ title: "", url: "" });
