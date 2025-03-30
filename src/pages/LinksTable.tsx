@@ -364,10 +364,39 @@ const SortableCampaignRow = ({
 };
 
 const LinksTable = () => {
+  useEffect(() => {
+    //const tg = document.createElement('div');
+    //tg.id = 'telegram';
+
+    //document.getElementById("auth").appendChild(tg);
+
+    console.log("start profile");
+    fetchUserProfile();
+    console.log(userProfile.username == null);
+    if (userProfile.username == null) {
+      const scriptElement = document.createElement("script");
+      scriptElement.id = "tg-auth-widget";
+      scriptElement.src = "https://telegram.org/js/telegram-widget.js?22";
+      scriptElement.setAttribute("data-telegram-login", "VneshkaProBot");
+      scriptElement.setAttribute("data-size", "large");
+      scriptElement.setAttribute(
+        "data-onauth",
+        "TelegramLoginWidget.dataOnauth(user)"
+      );
+      scriptElement.setAttribute("data-request-access", "write");
+
+      document.getElementById("telegram").appendChild(scriptElement);
+    } else {
+      console.log("start data");
+      fetchData();
+    }
+  }, []);
+
   const [products, setProducts] = useState<Product[]>([]);
 
   const fetchData = async () => {
     try {
+      console.log("LinksTable");
       const response = await axios.get(
         "https://vneshka.pro/api/v1/controlpanel/products"
       ); // Замените на реальный URL
@@ -377,25 +406,6 @@ const LinksTable = () => {
       setProducts([]);
     }
   };
-
-  useEffect(() => {
-    //const tg = document.createElement('div');
-    //tg.id = 'telegram';
-
-    //document.getElementById("auth").appendChild(tg);
-
-    const scriptElement = document.createElement("script");
-    scriptElement.src = "https://telegram.org/js/telegram-widget.js?22";
-    scriptElement.setAttribute("data-telegram-login", "VneshkaProBot");
-    scriptElement.setAttribute("data-size", "large");
-    scriptElement.setAttribute(
-      "data-onauth",
-      "TelegramLoginWidget.dataOnauth(user)"
-    );
-    scriptElement.setAttribute("data-request-access", "write");
-
-    document.getElementById("telegram").appendChild(scriptElement);
-  }, []);
 
   window.TelegramLoginWidget = {
     dataOnauth: (user) => handleTelegramResponse(user),
@@ -418,6 +428,8 @@ const LinksTable = () => {
 
     fetchUserProfile();
     fetchData();
+
+    document.getElementById("tg-auth-widget").remove();
     // Вызываем функцию получения данных
   };
 
@@ -450,11 +462,7 @@ const LinksTable = () => {
     null
   );
 
-  const [userProfile, setUserProfile] = useState<UserProfile[]>({
-    username: "",
-    linksGenerated: 5,
-    linksLimit: 10,
-  });
+  const [userProfile, setUserProfile] = useState<UserProfile>({});
 
   const fetchUserProfile = async () => {
     try {
@@ -818,7 +826,7 @@ const LinksTable = () => {
               </Link>
             </div>
 
-            {userProfile.username !== "" ? (
+            {userProfile.username != null ? (
               <div className="flex items-center gap-5">
                 <div className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary">
                   <Link2 className="w-4 h-4" />
@@ -832,7 +840,7 @@ const LinksTable = () => {
                   className="flex items-center gap-2 text-gray-700"
                   id="auth"
                 >
-                  {userProfile.username !== "" ? (
+                  {userProfile.username != null ? (
                     <span className="text-sm font-medium">
                       {userProfile.username}
                     </span>
@@ -848,7 +856,7 @@ const LinksTable = () => {
         </div>
       </nav>
 
-      {userProfile.username !== "" ? (
+      {userProfile.username != null ? (
         <div className="container mx-auto px-6 pt-24 pb-20">
           <div className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
             <div className="p-8 border-b border-gray-100 bg-gradient-to-r from-primary/20 via-primary/10 to-transparent flex justify-between items-center">
