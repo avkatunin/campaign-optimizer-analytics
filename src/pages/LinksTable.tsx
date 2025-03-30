@@ -58,6 +58,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { UserInfo } from "os";
+import Logo from "@/components/Logo";
 
 const Collapsible = CollapsiblePrimitive.Root;
 const CollapsibleTrigger = CollapsiblePrimitive.CollapsibleTrigger;
@@ -820,15 +821,7 @@ const LinksTable = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link
-                to="/"
-                className="font-display text-xl font-bold flex items-center gap-2 text-gray-900"
-              >
-                <Home className="w-5 h-5 text-primary" />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-                  Vneshka.Pro
-                </span>
-              </Link>
+              <Logo />
             </div>
 
             {userProfile.username != null ? (

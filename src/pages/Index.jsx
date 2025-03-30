@@ -1,4 +1,3 @@
-
 import { ChartBar, Users, DollarSign, Target, Rocket } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -19,18 +18,12 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <Logo />
             <div className="flex items-center gap-6">
-              <Link to="/links" className="text-gray-600 hover:text-primary transition-colors">
-                Links Table
+              <Link
+                to="/links"
+                className="bg-primary px-6 py-2 rounded-full text-white font-medium hover:bg-secondary transition-colors"
+              >
+                Попробовать сейчас
               </Link>
-              <Link to="/register" className="text-gray-600 hover:text-primary transition-colors">
-                Регистрация
-              </Link>
-              <Link to="/login" className="text-gray-600 hover:text-primary transition-colors">
-                Вход
-              </Link>
-              <button className="bg-primary px-6 py-2 rounded-full text-white font-medium hover:bg-secondary transition-colors">
-                Get Started
-              </button>
             </div>
           </div>
         </div>
@@ -39,20 +32,36 @@ const Index = () => {
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-6">
         <div className="container mx-auto text-center max-w-4xl">
-          <span className="inline-block px-4 py-1 bg-primary/10 rounded-full text-primary text-sm font-medium mb-6 animate-fade-up opacity-0" style={{ animationDelay: "0.2s" }}>
+          <span
+            className="inline-block px-4 py-1 bg-primary/10 rounded-full text-primary text-sm font-medium mb-6 animate-fade-up opacity-0"
+            style={{ animationDelay: "0.2s" }}
+          >
             Transform Your Influencer Marketing
           </span>
-          <h1 className="font-display text-5xl md:text-6xl font-bold mb-6 animate-fade-up opacity-0" style={{ animationDelay: "0.4s" }}>
+          <h1
+            className="font-display text-5xl md:text-6xl font-bold mb-6 animate-fade-up opacity-0"
+            style={{ animationDelay: "0.4s" }}
+          >
             Optimize Your Influencer Campaigns with Data-Driven Insights
           </h1>
-          <p className="text-gray-600 text-xl mb-10 animate-fade-up opacity-0" style={{ animationDelay: "0.6s" }}>
-            Make informed decisions and maximize ROI with our advanced analytics platform designed for marketplace sellers.
+          <p
+            className="text-gray-600 text-xl mb-10 animate-fade-up opacity-0"
+            style={{ animationDelay: "0.6s" }}
+          >
+            Make informed decisions and maximize ROI with our advanced analytics
+            platform designed for marketplace sellers.
           </p>
-          <div className="flex justify-center gap-4 animate-fade-up opacity-0" style={{ animationDelay: "0.8s" }}>
+          <div
+            className="flex justify-center gap-4 animate-fade-up opacity-0"
+            style={{ animationDelay: "0.8s" }}
+          >
             <button className="bg-primary px-8 py-3 rounded-full text-white font-medium hover:bg-secondary transition-colors">
               Start Free Trial
             </button>
-            <Link to="/links" className="border border-gray-200 px-8 py-3 rounded-full font-medium hover:bg-gray-50 transition-colors">
+            <Link
+              to="/links"
+              className="border border-gray-200 px-8 py-3 rounded-full font-medium hover:bg-gray-50 transition-colors"
+            >
               View Links Table
             </Link>
           </div>
@@ -64,9 +73,12 @@ const Index = () => {
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <span className="text-primary font-medium">Features</span>
-            <h2 className="font-display text-4xl font-bold mt-2 mb-4">Everything you need to succeed</h2>
+            <h2 className="font-display text-4xl font-bold mt-2 mb-4">
+              Everything you need to succeed
+            </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Powerful tools to analyze, optimize, and scale your influencer marketing campaigns.
+              Powerful tools to analyze, optimize, and scale your influencer
+              marketing campaigns.
             </p>
           </div>
 
@@ -75,32 +87,38 @@ const Index = () => {
               {
                 icon: <ChartBar className="w-6 h-6" />,
                 title: "Advanced Analytics",
-                description: "Track performance metrics and ROI in real-time with detailed insights.",
+                description:
+                  "Track performance metrics and ROI in real-time with detailed insights.",
               },
               {
                 icon: <Users className="w-6 h-6" />,
                 title: "Influencer Matching",
-                description: "Find the perfect influencers for your brand using AI-powered matching.",
+                description:
+                  "Find the perfect influencers for your brand using AI-powered matching.",
               },
               {
                 icon: <DollarSign className="w-6 h-6" />,
                 title: "ROI Optimization",
-                description: "Maximize returns with data-driven campaign optimization strategies.",
+                description:
+                  "Maximize returns with data-driven campaign optimization strategies.",
               },
               {
                 icon: <Target className="w-6 h-6" />,
                 title: "Campaign Tracking",
-                description: "Monitor campaign performance and engagement in real-time.",
+                description:
+                  "Monitor campaign performance and engagement in real-time.",
               },
               {
                 icon: <Rocket className="w-6 h-6" />,
                 title: "Performance Insights",
-                description: "Get actionable insights to improve campaign effectiveness.",
+                description:
+                  "Get actionable insights to improve campaign effectiveness.",
               },
               {
                 icon: <ChartBar className="w-6 h-6" />,
                 title: "Custom Reports",
-                description: "Generate comprehensive reports with key metrics and insights.",
+                description:
+                  "Generate comprehensive reports with key metrics and insights.",
               },
             ].map((feature, index) => (
               <div
@@ -110,7 +128,9 @@ const Index = () => {
                 <div className="bg-primary/10 w-12 h-12 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
                   {feature.icon}
                 </div>
-                <h3 className="font-display text-xl font-bold mb-3">{feature.title}</h3>
+                <h3 className="font-display text-xl font-bold mb-3">
+                  {feature.title}
+                </h3>
                 <p className="text-gray-600">{feature.description}</p>
               </div>
             ))}
@@ -128,7 +148,8 @@ const Index = () => {
                 Ready to optimize your campaigns?
               </h2>
               <p className="text-white/90 text-xl mb-10 max-w-2xl mx-auto">
-                Join thousands of marketplace sellers who are already maximizing their ROI with our platform.
+                Join thousands of marketplace sellers who are already maximizing
+                their ROI with our platform.
               </p>
               <button className="bg-white text-primary px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors">
                 Get Started Now
