@@ -850,12 +850,6 @@ const LinksTable = () => {
                       <span className="text-sm font-medium">
                         {userProfile.firstName}
                       </span>
-                      <img
-                        src={userProfile.photoUrl}
-                        width="40px"
-                        height="40px"
-                        style="border-radius: 20px"
-                      ></img>
                     </div>
                   ) : (
                     <div id="telegram"></div>
