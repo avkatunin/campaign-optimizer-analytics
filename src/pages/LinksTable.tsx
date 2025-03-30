@@ -371,27 +371,30 @@ const LinksTable = () => {
     //document.getElementById("auth").appendChild(tg);
 
     console.log("start profile");
-    fetchUserProfile();
-    console.log(userProfile.username);
-    console.log(userProfile.username == null);
-    console.log(userProfile.username === null);
-    if (userProfile.username == null) {
-      const scriptElement = document.createElement("script");
-      scriptElement.id = "tg-auth-widget";
-      scriptElement.src = "https://telegram.org/js/telegram-widget.js?22";
-      scriptElement.setAttribute("data-telegram-login", "VneshkaProBot");
-      scriptElement.setAttribute("data-size", "large");
-      scriptElement.setAttribute(
-        "data-onauth",
-        "TelegramLoginWidget.dataOnauth(user)"
-      );
-      scriptElement.setAttribute("data-request-access", "write");
 
-      document.getElementById("telegram").appendChild(scriptElement);
-    } else {
-      console.log("start data");
-      fetchData();
-    }
+    axios
+      .get("https://vneshka.pro/api/v1/controlpanel/profile/me")
+      .then((response) => {
+        console.log("2. server response:" + response.data.username);
+        setUserProfile(response.data);
+        if (response.data.username == null) {
+          const scriptElement = document.createElement("script");
+          scriptElement.id = "tg-auth-widget";
+          scriptElement.src = "https://telegram.org/js/telegram-widget.js?22";
+          scriptElement.setAttribute("data-telegram-login", "VneshkaProBot");
+          scriptElement.setAttribute("data-size", "large");
+          scriptElement.setAttribute(
+            "data-onauth",
+            "TelegramLoginWidget.dataOnauth(user)"
+          );
+          scriptElement.setAttribute("data-request-access", "write");
+
+          document.getElementById("telegram").appendChild(scriptElement);
+        } else {
+          console.log("start data");
+          fetchData();
+        }
+      });
   }, []);
 
   const [products, setProducts] = useState<Product[]>([]);
