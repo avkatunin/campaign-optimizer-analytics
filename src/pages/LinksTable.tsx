@@ -524,11 +524,11 @@ const LinksTable = () => {
       return;
     }
 
-    if (userProfile.linksGeneratedMonth >= userProfile.linksGeneratedAll) {
-      setIsAddCampaignDialogOpen(false);
-      setIsLimitExceededDialogOpen(true);
-      return;
-    }
+    //if (userProfile.linksGeneratedMonth >= userProfile.linksGeneratedAll) {
+    //setIsAddCampaignDialogOpen(false);
+    //setIsLimitExceededDialogOpen(true);
+    //return;
+    //}
 
     const newCampaignObj: Campaign = {
       platform: newCampaign.platform,
