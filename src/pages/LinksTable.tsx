@@ -372,7 +372,9 @@ const LinksTable = () => {
 
     console.log("start profile");
     fetchUserProfile();
+    console.log(userProfile.username);
     console.log(userProfile.username == null);
+    console.log(userProfile.username === null);
     if (userProfile.username == null) {
       const scriptElement = document.createElement("script");
       scriptElement.id = "tg-auth-widget";
@@ -841,9 +843,17 @@ const LinksTable = () => {
                   id="auth"
                 >
                   {userProfile.username != null ? (
-                    <span className="text-sm font-medium">
-                      {userProfile.username}
-                    </span>
+                    <div>
+                      <span className="text-sm font-medium">
+                        {userProfile.firstName}
+                      </span>
+                      <img
+                        src={userProfile.photoUrl}
+                        width="40px"
+                        height="40px"
+                        style="border-radius: 20px"
+                      ></img>
+                    </div>
                   ) : (
                     <div id="telegram"></div>
                   )}
