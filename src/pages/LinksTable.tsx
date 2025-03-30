@@ -429,7 +429,7 @@ const LinksTable = () => {
     fetchUserProfile();
     fetchData();
 
-    document.getElementById("tg-auth-widget").remove();
+    document.getElementById("telegram-login-VneshkaProBot").remove();
     // Вызываем функцию получения данных
   };
 
