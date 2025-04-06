@@ -18,12 +18,13 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <Logo />
             <div className="flex items-center gap-6">
-              <Link
-                to="/links"
+              <a
+                target="_blank"
+                href="https://app.vneshka.pro"
                 className="bg-primary px-6 py-2 rounded-full text-white font-medium hover:bg-secondary transition-colors"
               >
                 Попробовать сейчас
-              </Link>
+              </a>
             </div>
           </div>
         </div>
