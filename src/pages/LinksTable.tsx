@@ -374,7 +374,7 @@ const LinksTable = () => {
     console.log("start profile");
 
     axios
-      .get("https://vneshka.pro/api/v1/controlpanel/profile/me")
+      .get("https://app.vneshka.pro/api/v1/controlpanel/profile/me")
       .then((response) => {
         console.log("2. server response:" + response.data.username);
         setUserProfile(response.data);
@@ -404,7 +404,7 @@ const LinksTable = () => {
     try {
       console.log("LinksTable");
       const response = await axios.get(
-        "https://vneshka.pro/api/v1/controlpanel/products"
+        "https://app.vneshka.pro/api/v1/controlpanel/products"
       ); // Замените на реальный URL
       setProducts(response.data); // Сохраняем полученные данные в состоянии
     } catch (error) {
@@ -428,7 +428,7 @@ const LinksTable = () => {
     params.append("authDate", user.auth_date);
     params.append("hash", user.hash);
     const response = await axios.post(
-      "https://vneshka.pro/api/v1/controlpanel/auth/telegram",
+      "https://app.vneshka.pro/api/v1/controlpanel/auth/telegram",
       params
     );
 
@@ -473,7 +473,7 @@ const LinksTable = () => {
   const fetchUserProfile = async () => {
     try {
       const response = await axios.get(
-        "https://vneshka.pro/api/v1/controlpanel/profile/me"
+        "https://app.vneshka.pro/api/v1/controlpanel/profile/me"
       ); // Замените на реальный URL
       setUserProfile(response.data); // Сохраняем полученные данные в состоянии
     } catch (error) {
@@ -502,7 +502,7 @@ const LinksTable = () => {
     };
 
     const response = await axios.post(
-      "https://vneshka.pro/api/v1/controlpanel/products",
+      "https://app.vneshka.pro/api/v1/controlpanel/products",
       newProductObj
     );
 
@@ -542,7 +542,7 @@ const LinksTable = () => {
     };
 
     const response = await axios.post(
-      "https://vneshka.pro/api/v1/controlpanel/products/" +
+      "https://app.vneshka.pro/api/v1/controlpanel/products/" +
         newCampaign.productId +
         "/deeplink",
       newCampaignObj
@@ -595,7 +595,7 @@ const LinksTable = () => {
     };
 
     const response = await axios.post(
-      "https://vneshka.pro/api/v1/controlpanel/products/" +
+      "https://app.vneshka.pro/api/v1/controlpanel/products/" +
         productId +
         "/campaigns/" +
         campaignId +
@@ -629,7 +629,7 @@ const LinksTable = () => {
     campaignId: string
   ) => {
     const response = await axios.get(
-      "https://vneshka.pro/api/v1/controlpanel/products/" +
+      "https://app.vneshka.pro/api/v1/controlpanel/products/" +
         productId +
         "/campaigns/" +
         campaignId
@@ -660,7 +660,7 @@ const LinksTable = () => {
     setIsRefreshingStats(productId);
 
     const response = await axios.get(
-      "https://vneshka.pro/api/v1/controlpanel/products/" + productId
+      "https://app.vneshka.pro/api/v1/controlpanel/products/" + productId
     );
 
     const updatedProducts = products.map((product) => {
