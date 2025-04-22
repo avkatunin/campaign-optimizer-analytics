@@ -95,6 +95,7 @@ interface UserProfile {
   photoUrl: string;
   linksGeneratedMonth: number;
   linksGeneratedAll: number;
+  linksLimit: number;
 }
 
 const SortableProductItem = ({
@@ -525,11 +526,12 @@ const LinksTable = () => {
       return;
     }
 
-    //if (userProfile.linksGeneratedMonth >= userProfile.linksGeneratedAll) {
-    //setIsAddCampaignDialogOpen(false);
-    //setIsLimitExceededDialogOpen(true);
-    //return;
-    //}
+    if (userProfile.linksLimit <= 0) {
+      t;
+      setIsAddCampaignDialogOpen(false);
+      setIsLimitExceededDialogOpen(true);
+      return;
+    }
 
     const newCampaignObj: Campaign = {
       platform: newCampaign.platform,
@@ -829,9 +831,7 @@ const LinksTable = () => {
                 <div className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary">
                   <Link2 className="w-4 h-4" />
                   <span className="text-sm font-medium">
-                    Ссылок сгенерировано в этом месяце:{" "}
-                    {userProfile.linksGeneratedMonth}/
-                    {userProfile.linksGeneratedAll}
+                    Доступно ссылок для генерации: {userProfile.linksLimit}
                   </span>
                 </div>
                 <div
@@ -1260,15 +1260,13 @@ const LinksTable = () => {
           </DialogHeader>
           <div className="py-4">
             <p className="text-gray-600 mb-4">
-              Вы достигли лимита по количеству сгенерированных ссылок в текущем
-              месяце ({userProfile.linksLimit}).
+              У вас нет доступных ссылок для генерации ({userProfile.linksLimit}
+              ).
             </p>
-            <p className="text-gray-600">
-              Чтобы увеличить лимит, пожалуйста, обновите ваш тарифный план.
-            </p>
+            <p className="text-gray-600">Купить ссылки</p>
           </div>
           <button className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md">
-            Обновить тарифный план
+            Оплата
           </button>
         </DialogContent>
       </Dialog>
