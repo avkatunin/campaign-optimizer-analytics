@@ -17,4 +17,4 @@ jobs:
       - name: Push mirror
         run: |
           git remote add gitlab git@gitlab.com:vneshka/frontend.git
-          git push gitlab --all
+          git push gitlab --all --force
