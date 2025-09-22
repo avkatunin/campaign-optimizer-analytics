@@ -429,9 +429,10 @@ const LinksTable = () => {
     params.append("authDate", user.auth_date);
     params.append("hash", user.hash);
     params.append("authParams", user);
+
     const response = await axios.post(
       "https://app.vneshka.pro/api/v1/controlpanel/auth/telegram",
-      params
+      user
     );
 
     fetchUserProfile();
