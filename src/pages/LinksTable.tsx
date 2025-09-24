@@ -518,6 +518,13 @@ const LinksTable = () => {
     setIsAddProductDialogOpen(false);
   };
 
+  const handleIsAvaliableAddCampaign = () => {
+    if (userProfile.linksLimit <= 0) {
+      setIsAddCampaignDialogOpen(false);
+      setIsLimitExceededDialogOpen(true);
+    }
+  };
+
   const handleAddCampaign = async () => {
     if (
       !newCampaign.productId ||
@@ -528,11 +535,11 @@ const LinksTable = () => {
       return;
     }
 
-    if (userProfile.linksLimit <= 0) {
-      setIsAddCampaignDialogOpen(false);
-      setIsLimitExceededDialogOpen(true);
-      return;
-    }
+    //if (userProfile.linksLimit <= 0) {
+    //  setIsAddCampaignDialogOpen(false);
+    //  setIsLimitExceededDialogOpen(true);
+    //  return;
+    //}
 
     const newCampaignObj: Campaign = {
       platform: newCampaign.platform,
@@ -988,6 +995,7 @@ const LinksTable = () => {
                             >
                               <DialogTrigger asChild>
                                 <button className="bg-gradient-to-r from-primary/20 to-primary/10 hover:from-primary/30 hover:to-primary/20 text-primary transition-colors px-4 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1 shadow-sm hover:shadow-md">
+                                  onClick={handleIsAvaliableAddCampaign}
                                   <Plus className="w-4 h-4" />
                                   Добавить кампанию
                                 </button>
@@ -1260,8 +1268,7 @@ const LinksTable = () => {
           </DialogHeader>
           <div className="py-4">
             <p className="text-gray-600 mb-4">
-              У вас нет доступных ссылок для генерации ({userProfile.linksLimit}
-              ).
+              У вас нет доступных ссылок для генерации.
             </p>
             <p className="text-gray-600">Купить ссылки</p>
           </div>
