@@ -6,59 +6,6 @@ variables:
     CONTAINER_NAME: front-app
     SSH_HOST: $SSH_HOST_APP_CP
 
-stages:
-  - prepare
-  - build 
-  - deploy
-
-prepare:
-  stage: prepare 
-  script: 
-    - echo "IMAGE=$REGISTRY/$CONTAINER_NAME" > env
-  artifacts: 
-    reports:
-      dotenv: env
-
-build: 
-  needs: 
-    - prepare
-  stage: build
-  image: docker:24.0.5
-  services:
-    - name: docker:24.0.5-dind
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
-  before_script: 
-    - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD" "$REGISTRY"
-  script:
-    - pwd
-    - docker build . -t $CONTAINER_NAME:$IMAGE_TAG
-    - docker tag $CONTAINER_NAME:$IMAGE_TAG $IMAGE:$IMAGE_TAG
-    - docker push $IMAGE:$IMAGE_TAG
-
-deploy:
-  stage: deploy
-  needs:
-    - build
-    - prepare
-  before_script:
-    - apk update
-    - apk add --no-cache openssh
-    - install -m 600 -D /dev/null ~/.ssh/id_rsa
-    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
-    - ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" > ~/.ssh/known_hosts
-  script: 
-    - set -euo pipefail
-    - echo "SSH test to $SSH_USER@$SSH_HOST:${SSH_PORT:-22}"
-    - ssh -vvv -o BatchMode=yes -o IdentitiesOnly=yes -p "${SSH_PORT:-22}" "$SSH_USER@$SSH_HOST" true
-    - |
-      ssh -o BatchMode=yes -o IdentitiesOnly=yes -p "${SSH_PORT:-22}" "$SSH_USER@$SSH_HOST" \
-        "REGISTRY_USER='$REGISTRY_USER' REGISTRY_PASSWORD='$REGISTRY_PASSWORD' REGISTRY='$REGISTRY' IMAGE='$IMAGE' IMAGE_TAG='$IMAGE_TAG' CONTAINER_NAME='$CONTAINER_NAME' sh -s" <<'REMOTE_CMDS'
-      set -e
-      docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD" "$REGISTRY"
-      docker pull "$IMAGE:$IMAGE_TAG"
-      docker rm -f "$CONTAINER_NAME" || true
-      docker run -d --name "$CONTAINER_NAME" -p 8081:80 "$IMAGE:$IMAGE_TAG"
-      REMOTE_CMDS
+include:
+  - project: 'vneshka/basic-pipeline'
+    file: '.pipeline.yml'
