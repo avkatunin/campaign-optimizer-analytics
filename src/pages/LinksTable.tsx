@@ -994,8 +994,10 @@ const LinksTable = () => {
                               onOpenChange={setIsAddCampaignDialogOpen}
                             >
                               <DialogTrigger asChild>
-                                <button className="bg-gradient-to-r from-primary/20 to-primary/10 hover:from-primary/30 hover:to-primary/20 text-primary transition-colors px-4 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1 shadow-sm hover:shadow-md">
+                                <button
                                   onClick={handleIsAvaliableAddCampaign}
+                                  className="bg-gradient-to-r from-primary/20 to-primary/10 hover:from-primary/30 hover:to-primary/20 text-primary transition-colors px-4 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1 shadow-sm hover:shadow-md"
+                                >
                                   <Plus className="w-4 h-4" />
                                   Добавить кампанию
                                 </button>
