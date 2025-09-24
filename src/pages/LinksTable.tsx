@@ -522,6 +522,9 @@ const LinksTable = () => {
     if (userProfile.linksLimit <= 0) {
       setIsAddCampaignDialogOpen(false);
       setIsLimitExceededDialogOpen(true);
+    } else {
+      setIsAddCampaignDialogOpen(true);
+      setIsLimitExceededDialogOpen(false);
     }
   };
 
