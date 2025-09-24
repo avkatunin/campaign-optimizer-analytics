@@ -5,7 +5,6 @@ variables:
     IMAGE_TAG: "$CI_COMMIT_SHORT_SHA"
     CONTAINER_NAME: landing
 
-
 include:
   - project: 'vneshka/basic-pipeline'
     file: '.pipeline.yml'
