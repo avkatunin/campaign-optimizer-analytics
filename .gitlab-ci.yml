@@ -7,5 +7,5 @@ variables:
 
 
 include:
-  - project: 'vneshka.pro/basic-pipeline'
+  - project: 'vneshka/basic-pipeline'
     file: '.pipeline.yml'
