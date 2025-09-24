@@ -1,0 +1,12 @@
+default: 
+  image: alpine:3.20
+
+variables:
+    IMAGE_TAG: "$CI_COMMIT_SHORT_SHA"
+    CONTAINER_NAME: landing
+    SSH_HOST: $SSH_HOST_LANDING
+
+include:
+  - project: 'vneshka/basic-pipeline'
+    file: '.pipeline.yml'
+
