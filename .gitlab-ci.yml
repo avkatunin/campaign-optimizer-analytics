@@ -9,3 +9,4 @@ variables:
 include:
   - project: 'vneshka/basic-pipeline'
     file: '.pipeline.yml'
+
