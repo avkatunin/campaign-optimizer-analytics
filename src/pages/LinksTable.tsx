@@ -528,8 +528,7 @@ const LinksTable = () => {
       return;
     }
 
-    if (userProfile.linksLimit <= 0) {
-      t;
+    if (userProfile.availableLinks <= 0) {
       setIsAddCampaignDialogOpen(false);
       setIsLimitExceededDialogOpen(true);
       return;
@@ -566,8 +565,7 @@ const LinksTable = () => {
 
     setProducts(updatedProducts);
     setGeneratedLink(newRow.deeplink);
-    userProfile.linksGeneratedMonth += 1;
-    userProfile.linksGeneratedAll += 1;
+    userProfile.availableLinks -= 1;
 
     setNewCampaign({
       productId: "",
