@@ -841,7 +841,7 @@ const LinksTable = () => {
                 <div className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary">
                   <Link2 className="w-4 h-4" />
                   <span className="text-sm font-medium">
-                    Доступно ссылок для генерации: {userProfile.linksLimit}
+                    Доступно рекламных кампаний: {userProfile.linksLimit}
                   </span>
                 </div>
                 <div
