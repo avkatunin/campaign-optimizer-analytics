@@ -5,6 +5,8 @@ variables:
     IMAGE_TAG: "$CI_COMMIT_SHORT_SHA"
     CONTAINER_NAME: front-app
     SSH_HOST: $SSH_HOST_APP_CP
+    APP_TYPE: frontend
+    
 include:
   - project: 'vneshka/basic-pipeline'
     file: '.pipeline.yml'
