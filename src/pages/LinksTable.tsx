@@ -83,6 +83,7 @@ interface Product {
   id: string;
   title: string;
   url: string;
+  campaignsCount: number;
   campaigns: Campaign[];
 }
 
@@ -1143,7 +1144,7 @@ const LinksTable = () => {
                             </Dialog>
                           </div>
 
-                          {product.campaigns.length === 0 ? (
+                          {product.campaignsCount === 0 ? (
                             <div className="text-center py-6 bg-gray-50 rounded-lg">
                               <p className="text-gray-500">
                                 У данного товара пока нет кампаний. Нажмите
