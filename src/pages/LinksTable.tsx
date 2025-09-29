@@ -484,7 +484,15 @@ const LinksTable = () => {
     if (openCollapsible === id) {
       setOpenCollapsible(null);
     } else {
-      //refreshAllCampaignsStats(id);
+      refreshAllCampaignsStats(id);
+      setOpenCollapsible(id);
+    }
+  };
+
+  const toggleCollapsibleFake = (id: string) => {
+    if (openCollapsible === id) {
+      setOpenCollapsible(null);
+    } else {
       setOpenCollapsible(id);
     }
   };
@@ -957,7 +965,7 @@ const LinksTable = () => {
                       <SortableProductItem
                         product={product}
                         isOpen={openCollapsible === product.id}
-                        onToggle={() => toggleCollapsible(product.id)}
+                        onToggle={() => toggleCollapsibleFake(product.id)}
                       />
 
                       <CollapsibleContent>
