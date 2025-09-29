@@ -371,13 +371,9 @@ const LinksTable = () => {
     //tg.id = 'telegram';
 
     //document.getElementById("auth").appendChild(tg);
-
-    console.log("start profile");
-
     axios
       .get("https://app.vneshka.pro/api/v1/controlpanel/profile/me")
       .then((response) => {
-        console.log("2. server response:" + response.data.username);
         setUserProfile(response.data);
         if (response.data.username == null) {
           const scriptElement = document.createElement("script");
@@ -393,7 +389,6 @@ const LinksTable = () => {
 
           document.getElementById("telegram").appendChild(scriptElement);
         } else {
-          console.log("start data");
           fetchData();
         }
       });
@@ -488,6 +483,7 @@ const LinksTable = () => {
     if (openCollapsible === id) {
       setOpenCollapsible(null);
     } else {
+      refreshAllCampaignsStats(id);
       setOpenCollapsible(id);
     }
   };
@@ -537,12 +533,6 @@ const LinksTable = () => {
       toast.error("Пожалуйста, заполните все обязательные поля");
       return;
     }
-
-    //if (userProfile.linksLimit <= 0) {
-    //  setIsAddCampaignDialogOpen(false);
-    //  setIsLimitExceededDialogOpen(true);
-    //  return;
-    //}
 
     const newCampaignObj: Campaign = {
       platform: newCampaign.platform,
