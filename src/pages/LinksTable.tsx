@@ -484,7 +484,7 @@ const LinksTable = () => {
     if (openCollapsible === id) {
       setOpenCollapsible(null);
     } else {
-      refreshAllCampaignsStats(id);
+      //refreshAllCampaignsStats(id);
       setOpenCollapsible(id);
     }
   };
