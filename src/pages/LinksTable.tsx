@@ -1185,30 +1185,31 @@ const LinksTable = () => {
                                   )}
                                   strategy={verticalListSortingStrategy}
                                 >
-                                  <Collapsible
-                                    key={campaign.id}
-                                    open={
-                                      openCollapsibleCampaign === campaign.id
-                                    }
-                                    onOpenChange={() =>
-                                      toggleCollapsibleCampaign(campaign.id)
-                                    }
-                                  >
-                                    <Table>
-                                      <TableHeader>
-                                        <TableRow>
-                                          <TableHead className="w-[5%]"></TableHead>
-                                          <TableHead>Кампания</TableHead>
-                                          <TableHead>
-                                            Уникальная ссылка
-                                          </TableHead>
-                                          <TableHead>
-                                            Статистика переходов
-                                          </TableHead>
-                                        </TableRow>
-                                      </TableHeader>
-                                      <TableBody>
-                                        {product.campaigns.map((campaign) => (
+                                  <Table>
+                                    <TableHeader>
+                                      <TableRow>
+                                        <TableHead className="w-[5%]"></TableHead>
+                                        <TableHead>Кампания</TableHead>
+                                        <TableHead>Уникальная ссылка</TableHead>
+                                        <TableHead>
+                                          Статистика переходов
+                                        </TableHead>
+                                      </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                      {product.campaigns.map((campaign) => (
+                                        <Collapsible
+                                          key={campaign.id}
+                                          open={
+                                            openCollapsibleCampaign ===
+                                            campaign.id
+                                          }
+                                          onOpenChange={() =>
+                                            toggleCollapsibleCampaign(
+                                              campaign.id
+                                            )
+                                          }
+                                        >
                                           <SortableCampaignRow
                                             key={campaign.id}
                                             campaign={campaign}
@@ -1220,18 +1221,18 @@ const LinksTable = () => {
                                               refreshCampaignStats
                                             }
                                           />
-                                        ))}
-                                      </TableBody>
-                                    </Table>
-                                    <CollapsibleContent>
-                                      <div className="text-center py-6 bg-gray-50 rounded-lg">
-                                        <p className="text-gray-500">
-                                          У данной кампании не отображаются
-                                          данные
-                                        </p>
-                                      </div>
-                                    </CollapsibleContent>
-                                  </Collapsible>
+                                          <CollapsibleContent>
+                                            <div className="text-center py-6 bg-gray-50 rounded-lg">
+                                              <p className="text-gray-500">
+                                                У данной кампании не
+                                                отображаются данные
+                                              </p>
+                                            </div>
+                                          </CollapsibleContent>
+                                        </Collapsible>
+                                      ))}
+                                    </TableBody>
+                                  </Table>
                                 </SortableContext>
                               </DndContext>
                             </div>
