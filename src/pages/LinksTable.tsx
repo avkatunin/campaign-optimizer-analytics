@@ -225,11 +225,7 @@ const SortableCampaignRow = ({
   };
 
   return (
-    <TableRow
-      ref={setNodeRef}
-      style={style}
-      //className="bg-white rounded-xl border border-gray-200 shadow-md transition-all hover:shadow-lg"
-    >
+    <TableRow ref={setNodeRef} style={style}>
       <TableCell className="w-[5%]">
         <div
           {...attributes}
@@ -368,20 +364,6 @@ const SortableCampaignRow = ({
           >
             <RefreshCw className="w-4 h-4" />
           </button>
-          <div className="flex items-center gap-2 ml-4">
-            <CollapsibleTrigger asChild>
-              <button
-                onClick={onToggle}
-                className="ml-4 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-              >
-                <ChevronDown
-                  className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${
-                    isOpen ? "transform rotate-180" : ""
-                  }`}
-                />
-              </button>
-            </CollapsibleTrigger>
-          </div>
         </div>
       </TableCell>
     </TableRow>
@@ -1220,47 +1202,24 @@ const LinksTable = () => {
                                     </TableHeader>
                                     <TableBody>
                                       {product.campaigns.map((campaign) => (
-                                        <Collapsible
+                                        <SortableCampaignRow
                                           key={campaign.id}
-                                          open={
+                                          campaign={campaign}
+                                          productId={product.id}
+                                          onUpdatePostLink={
+                                            updateCampaignPostLink
+                                          }
+                                          onRefreshStats={refreshCampaignStats}
+                                          isOpen={
                                             openCollapsibleCampaign ===
                                             campaign.id
                                           }
-                                          onOpenChange={() =>
+                                          onToggle={() =>
                                             toggleCollapsibleCampaign(
                                               campaign.id
                                             )
                                           }
-                                        >
-                                          <SortableCampaignRow
-                                            key={campaign.id}
-                                            campaign={campaign}
-                                            productId={product.id}
-                                            onUpdatePostLink={
-                                              updateCampaignPostLink
-                                            }
-                                            onRefreshStats={
-                                              refreshCampaignStats
-                                            }
-                                            isOpen={
-                                              openCollapsibleCampaign ===
-                                              campaign.id
-                                            }
-                                            onToggle={() =>
-                                              toggleCollapsibleCampaign(
-                                                campaign.id
-                                              )
-                                            }
-                                          />
-                                          <CollapsibleContent>
-                                            <div className="text-center py-6 bg-gray-50 rounded-lg">
-                                              <p className="text-gray-500">
-                                                У данной кампании не
-                                                отображаются данные
-                                              </p>
-                                            </div>
-                                          </CollapsibleContent>
-                                        </Collapsible>
+                                        />
                                       ))}
                                     </TableBody>
                                   </Table>
