@@ -439,6 +439,9 @@ const LinksTable = () => {
   };
 
   const [openCollapsible, setOpenCollapsible] = useState<string | null>(null);
+  const [openCollapsibleCampaign, setOpenCollapsibleCampaign] = useState<
+    string | null
+  >(null);
   const [newProduct, setNewProduct] = useState({ title: "", url: "" });
   const [newCampaign, setNewCampaign] = useState<{
     productId: string;
@@ -486,6 +489,14 @@ const LinksTable = () => {
     } else {
       refreshAllCampaignsStats(id);
       setOpenCollapsible(id);
+    }
+  };
+
+  const toggleCollapsibleCampaign = (id: string) => {
+    if (openCollapsibleCampaign === id) {
+      setOpenCollapsibleCampaign(null);
+    } else {
+      setOpenCollapsibleCampaign(id);
     }
   };
 
@@ -1174,31 +1185,53 @@ const LinksTable = () => {
                                   )}
                                   strategy={verticalListSortingStrategy}
                                 >
-                                  <Table>
-                                    <TableHeader>
-                                      <TableRow>
-                                        <TableHead className="w-[5%]"></TableHead>
-                                        <TableHead>Кампания</TableHead>
-                                        <TableHead>Уникальная ссылка</TableHead>
-                                        <TableHead>
-                                          Статистика переходов
-                                        </TableHead>
-                                      </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                      {product.campaigns.map((campaign) => (
-                                        <SortableCampaignRow
-                                          key={campaign.id}
-                                          campaign={campaign}
-                                          productId={product.id}
-                                          onUpdatePostLink={
-                                            updateCampaignPostLink
-                                          }
-                                          onRefreshStats={refreshCampaignStats}
-                                        />
-                                      ))}
-                                    </TableBody>
-                                  </Table>
+                                  <Collapsible
+                                    key={campaign.id}
+                                    open={
+                                      openCollapsibleCampaign === campaign.id
+                                    }
+                                    onOpenChange={() =>
+                                      toggleCollapsibleCampaign(campaign.id)
+                                    }
+                                  >
+                                    <Table>
+                                      <TableHeader>
+                                        <TableRow>
+                                          <TableHead className="w-[5%]"></TableHead>
+                                          <TableHead>Кампания</TableHead>
+                                          <TableHead>
+                                            Уникальная ссылка
+                                          </TableHead>
+                                          <TableHead>
+                                            Статистика переходов
+                                          </TableHead>
+                                        </TableRow>
+                                      </TableHeader>
+                                      <TableBody>
+                                        {product.campaigns.map((campaign) => (
+                                          <SortableCampaignRow
+                                            key={campaign.id}
+                                            campaign={campaign}
+                                            productId={product.id}
+                                            onUpdatePostLink={
+                                              updateCampaignPostLink
+                                            }
+                                            onRefreshStats={
+                                              refreshCampaignStats
+                                            }
+                                          />
+                                        ))}
+                                      </TableBody>
+                                    </Table>
+                                    <CollapsibleContent>
+                                      <div className="text-center py-6 bg-gray-50 rounded-lg">
+                                        <p className="text-gray-500">
+                                          У данной кампании не отображаются
+                                          данные
+                                        </p>
+                                      </div>
+                                    </CollapsibleContent>
+                                  </Collapsible>
                                 </SortableContext>
                               </DndContext>
                             </div>
