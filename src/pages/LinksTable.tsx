@@ -172,6 +172,8 @@ const SortableCampaignRow = ({
   productId,
   onUpdatePostLink,
   onRefreshStats,
+  isOpen,
+  onToggle,
 }: {
   campaign: Campaign;
   productId: string;
@@ -181,6 +183,8 @@ const SortableCampaignRow = ({
     postLink: string
   ) => void;
   onRefreshStats: (productId: string, campaignId: string) => void;
+  isOpen: boolean;
+  onToggle: () => void;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: campaign.id });
@@ -360,6 +364,20 @@ const SortableCampaignRow = ({
           >
             <RefreshCw className="w-4 h-4" />
           </button>
+          <div className="flex items-center gap-2 ml-4">
+            <CollapsibleTrigger asChild>
+              <button
+                onClick={onToggle}
+                className="ml-4 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                <ChevronDown
+                  className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${
+                    isOpen ? "transform rotate-180" : ""
+                  }`}
+                />
+              </button>
+            </CollapsibleTrigger>
+          </div>
         </div>
       </TableCell>
     </TableRow>
@@ -1219,6 +1237,15 @@ const LinksTable = () => {
                                             }
                                             onRefreshStats={
                                               refreshCampaignStats
+                                            }
+                                            isOpen={
+                                              openCollapsibleCampaign ===
+                                              campaign.id
+                                            }
+                                            onToggle={() =>
+                                              toggleCollapsibleCampaign(
+                                                campaign.id
+                                              )
                                             }
                                           />
                                           <CollapsibleContent>
