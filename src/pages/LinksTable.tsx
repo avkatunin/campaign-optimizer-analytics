@@ -225,172 +225,166 @@ const SortableCampaignRow = ({
   };
 
   return (
-    <div
+    <TableRow
       ref={setNodeRef}
       style={style}
-      className="bg-white rounded-xl border border-gray-200 shadow-md transition-all hover:shadow-lg"
-    >
-      <TableRow
-      //ref={setNodeRef}
-      //style={style}
       //className="bg-white rounded-xl border border-gray-200 shadow-md transition-all hover:shadow-lg"
-      >
-        <TableCell className="w-[5%]">
-          <div
-            {...attributes}
-            {...listeners}
-            className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600"
-          >
-            <GripVertical className="w-5 h-5" />
+    >
+      <TableCell className="w-[5%]">
+        <div
+          {...attributes}
+          {...listeners}
+          className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600"
+        >
+          <GripVertical className="w-5 h-5" />
+        </div>
+      </TableCell>
+      <TableCell>
+        <div className="flex items-center">
+          <div className="w-8 h-8 rounded-full flex items-center justify-center bg-primary/10 text-primary mr-3">
+            {getPlatformIcon(campaign.platform)}
           </div>
-        </TableCell>
-        <TableCell>
-          <div className="flex items-center">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center bg-primary/10 text-primary mr-3">
-              {getPlatformIcon(campaign.platform)}
+          <div>
+            <div className="font-medium">
+              {campaign.advertiserLink ? (
+                <a
+                  href={campaign.advertiserLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline text-primary"
+                >
+                  {campaign.advertiser}
+                </a>
+              ) : (
+                campaign.advertiser
+              )}
             </div>
-            <div>
-              <div className="font-medium">
-                {campaign.advertiserLink ? (
+            {isEditingPostLink ? (
+              <div className="mt-1 flex items-center">
+                <Input
+                  value={postLinkValue}
+                  onChange={(e) => setPostLinkValue(e.target.value)}
+                  placeholder="https://instagram.com/p/example"
+                  className="text-xs h-7 min-w-[200px]"
+                />
+                <button
+                  onClick={handleSavePostLink}
+                  className="ml-2 px-2 py-1 bg-primary text-white text-xs rounded hover:bg-primary/90"
+                >
+                  Сохранить
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center mt-1">
+                {campaign.postLink ? (
                   <a
-                    href={campaign.advertiserLink}
+                    href={campaign.postLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:underline text-primary"
+                    className="text-xs text-gray-500 hover:underline flex items-center gap-1"
                   >
-                    {campaign.advertiser}
+                    <ExternalLink className="w-3 h-3" />
+                    Ссылка на пост
                   </a>
                 ) : (
-                  campaign.advertiser
+                  <button
+                    onClick={() => setIsEditingPostLink(true)}
+                    className="text-xs text-primary hover:underline flex items-center gap-1"
+                  >
+                    <Plus className="w-3 h-3" />
+                    Добавить ссылку на пост
+                  </button>
                 )}
               </div>
-              {isEditingPostLink ? (
-                <div className="mt-1 flex items-center">
-                  <Input
-                    value={postLinkValue}
-                    onChange={(e) => setPostLinkValue(e.target.value)}
-                    placeholder="https://instagram.com/p/example"
-                    className="text-xs h-7 min-w-[200px]"
-                  />
-                  <button
-                    onClick={handleSavePostLink}
-                    className="ml-2 px-2 py-1 bg-primary text-white text-xs rounded hover:bg-primary/90"
-                  >
-                    Сохранить
-                  </button>
-                </div>
-              ) : (
-                <div className="flex items-center mt-1">
-                  {campaign.postLink ? (
-                    <a
-                      href={campaign.postLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-gray-500 hover:underline flex items-center gap-1"
-                    >
-                      <ExternalLink className="w-3 h-3" />
-                      Ссылка на пост
-                    </a>
-                  ) : (
-                    <button
-                      onClick={() => setIsEditingPostLink(true)}
-                      className="text-xs text-primary hover:underline flex items-center gap-1"
-                    >
-                      <Plus className="w-3 h-3" />
-                      Добавить ссылку на пост
-                    </button>
-                  )}
+            )}
+            <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
+              {campaign.startDate && (
+                <div className="flex items-center gap-1">
+                  <Calendar className="w-3 h-3" />
+                  {format(campaign.startDate, "dd.MM.yyyy")}
                 </div>
               )}
-              <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
-                {campaign.startDate && (
-                  <div className="flex items-center gap-1">
-                    <Calendar className="w-3 h-3" />
-                    {format(campaign.startDate, "dd.MM.yyyy")}
-                  </div>
-                )}
-                {campaign.cost && (
-                  <div className="flex items-center gap-1">
-                    <span className="font-medium text-gray-600">
-                      {campaign.cost.toLocaleString()}₽
-                    </span>
-                  </div>
-                )}
-              </div>
+              {campaign.cost && (
+                <div className="flex items-center gap-1">
+                  <span className="font-medium text-gray-600">
+                    {campaign.cost.toLocaleString()}₽
+                  </span>
+                </div>
+              )}
             </div>
           </div>
-        </TableCell>
-        <TableCell>
-          <div className="flex items-center gap-2">
-            <div className="max-w-[180px] overflow-hidden">
-              <div className="truncate text-gray-500 text-sm">
-                {campaign.deeplink}
-              </div>
-            </div>
-            <button
-              onClick={() => copyToClipboard(campaign.deeplink)}
-              className="p-1.5 text-gray-500 hover:text-primary hover:bg-primary/10 rounded-full transition-colors"
-            >
-              <Copy className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </TableCell>
-        <TableCell>
-          <div className="flex items-center justify-between">
-            <div className="bg-gray-50 p-2 rounded-lg">
-              <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
-                <Eye className="w-3 h-3" />
-                Всего
-              </div>
-              <div className="font-semibold">
-                {campaign.totalViews.toLocaleString()}
-              </div>
-            </div>
-
-            <div className="bg-gray-50 p-2 rounded-lg">
-              <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
-                <BarChart className="w-3 h-3" />
-                7дней
-              </div>
-              <div className="font-semibold">
-                {campaign.last7DaysViews.toLocaleString()}
-              </div>
-            </div>
-
-            <div className="bg-gray-50 p-2 rounded-lg">
-              <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
-                <Clock className="w-3 h-3" />
-                24часа
-              </div>
-              <div className="font-semibold">
-                {campaign.lastDayViews.toLocaleString()}
-              </div>
-            </div>
-
-            <button
-              onClick={() => onRefreshStats(productId, campaign.id)}
-              className="ml-4 p-1.5 text-gray-500 hover:text-primary hover:bg-primary/10 rounded-full transition-colors"
-            >
-              <RefreshCw className="w-4 h-4" />
-            </button>
-            <div className="flex items-center gap-2 ml-4">
-              <CollapsibleTrigger asChild>
-                <button
-                  onClick={onToggle}
-                  className="ml-4 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  <ChevronDown
-                    className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${
-                      isOpen ? "transform rotate-180" : ""
-                    }`}
-                  />
-                </button>
-              </CollapsibleTrigger>
+        </div>
+      </TableCell>
+      <TableCell>
+        <div className="flex items-center gap-2">
+          <div className="max-w-[180px] overflow-hidden">
+            <div className="truncate text-gray-500 text-sm">
+              {campaign.deeplink}
             </div>
           </div>
-        </TableCell>
-      </TableRow>
-    </div>
+          <button
+            onClick={() => copyToClipboard(campaign.deeplink)}
+            className="p-1.5 text-gray-500 hover:text-primary hover:bg-primary/10 rounded-full transition-colors"
+          >
+            <Copy className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </TableCell>
+      <TableCell>
+        <div className="flex items-center justify-between">
+          <div className="bg-gray-50 p-2 rounded-lg">
+            <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+              <Eye className="w-3 h-3" />
+              Всего
+            </div>
+            <div className="font-semibold">
+              {campaign.totalViews.toLocaleString()}
+            </div>
+          </div>
+
+          <div className="bg-gray-50 p-2 rounded-lg">
+            <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+              <BarChart className="w-3 h-3" />
+              7дней
+            </div>
+            <div className="font-semibold">
+              {campaign.last7DaysViews.toLocaleString()}
+            </div>
+          </div>
+
+          <div className="bg-gray-50 p-2 rounded-lg">
+            <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+              <Clock className="w-3 h-3" />
+              24часа
+            </div>
+            <div className="font-semibold">
+              {campaign.lastDayViews.toLocaleString()}
+            </div>
+          </div>
+
+          <button
+            onClick={() => onRefreshStats(productId, campaign.id)}
+            className="ml-4 p-1.5 text-gray-500 hover:text-primary hover:bg-primary/10 rounded-full transition-colors"
+          >
+            <RefreshCw className="w-4 h-4" />
+          </button>
+          <div className="flex items-center gap-2 ml-4">
+            <CollapsibleTrigger asChild>
+              <button
+                onClick={onToggle}
+                className="ml-4 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                <ChevronDown
+                  className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${
+                    isOpen ? "transform rotate-180" : ""
+                  }`}
+                />
+              </button>
+            </CollapsibleTrigger>
+          </div>
+        </div>
+      </TableCell>
+    </TableRow>
   );
 };
 
