@@ -1231,7 +1231,6 @@ const LinksTable = () => {
                                               campaign.id
                                             )
                                           }
-                                          className="w-full block"
                                         >
                                           <SortableCampaignRow
                                             key={campaign.id}
