@@ -225,7 +225,11 @@ const SortableCampaignRow = ({
   };
 
   return (
-    <TableRow ref={setNodeRef} style={style}>
+    <TableRow
+      ref={setNodeRef}
+      style={style}
+      className="bg-white rounded-xl border border-gray-200 shadow-md transition-all hover:shadow-lg"
+    >
       <TableCell className="w-[5%]">
         <div
           {...attributes}
