@@ -1252,7 +1252,7 @@ const LinksTable = () => {
                                               )
                                             }
                                           />
-                                          <CollapsibleContent>
+                                          <CollapsibleContent className="w-full overflow-hidden">
                                             <div className="text-center py-6 bg-gray-50 rounded-lg">
                                               <p className="text-gray-500">
                                                 У данной кампании не
