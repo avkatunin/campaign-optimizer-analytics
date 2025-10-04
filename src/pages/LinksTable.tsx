@@ -406,6 +406,7 @@ const LinksTable = () => {
 
   const fetchData = async () => {
     try {
+      fetchUserProfilePhoto();
       console.log("LinksTable");
       const response = await axios.get(
         "https://app.vneshka.pro/api/v1/controlpanel/products"
@@ -440,7 +441,6 @@ const LinksTable = () => {
 
     fetchUserProfile();
     fetchData();
-    fetchUserProfilePhoto();
 
     document.getElementById("telegram-login-VneshkaProBot").remove();
     // Вызываем функцию получения данных
@@ -486,7 +486,7 @@ const LinksTable = () => {
       const response = await axios.get(
         "https://app.vneshka.pro/api/v1/controlpanel/profile/me"
       ); // Замените на реальный URL
-      setUserProfile(response.data); // Сохраняем полученные данные в состоянии
+      setUserProfile(response.data);
     } catch (error) {
       alert("error");
     }
