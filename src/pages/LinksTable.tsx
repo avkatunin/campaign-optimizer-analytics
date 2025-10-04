@@ -440,6 +440,7 @@ const LinksTable = () => {
 
     fetchUserProfile();
     fetchData();
+    fetchUserProfilePhoto();
 
     document.getElementById("telegram-login-VneshkaProBot").remove();
     // Вызываем функцию получения данных
@@ -466,6 +467,7 @@ const LinksTable = () => {
     cost: "",
   });
 
+  const [isUserPhotoAvaliable, setIsUserPhotoAvaliable] = useState(false);
   const [isAddProductDialogOpen, setIsAddProductDialogOpen] = useState(false);
   const [isAddCampaignDialogOpen, setIsAddCampaignDialogOpen] = useState(false);
   const [isGeneratedLinkDialogOpen, setIsGeneratedLinkDialogOpen] =
@@ -487,6 +489,17 @@ const LinksTable = () => {
       setUserProfile(response.data); // Сохраняем полученные данные в состоянии
     } catch (error) {
       alert("error");
+    }
+  };
+
+  const fetchUserProfilePhoto = async () => {
+    try {
+      const response = await axios.get(userProfile.photoUrl); // Замените на реальный URL
+      setIsUserPhotoAvaliable(true);
+      // Сохраняем полученные данные в состоянии
+    } catch (error) {
+      console.log("Error user");
+      setIsUserPhotoAvaliable(true);
     }
   };
 
@@ -868,18 +881,21 @@ const LinksTable = () => {
                 >
                   {userProfile.username != null ? (
                     <Avatar.Root className="AvatarRoot">
-                      <Avatar.Image
-                        src={userProfile.photoUrl}
-                        alt={userProfile.firstName}
-                        className="AvatarImage"
-                        onLoadingStatusChange={(s) => {
-                          // ожидаемые значения: "loading" | "loaded" | "error"
-                          console.log("avatar status:", s);
-                        }}
-                      />
-                      <Avatar.Fallback className="AvatarFallback">
-                        {userProfile.firstName.trim().charAt(0).toUpperCase()}
-                      </Avatar.Fallback>
+                      {isUserPhotoAvaliable ? (
+                        <Avatar.Image
+                          src={userProfile.photoUrl}
+                          alt={userProfile.firstName}
+                          className="AvatarImage"
+                          onLoadingStatusChange={(s) => {
+                            // ожидаемые значения: "loading" | "loaded" | "error"
+                            console.log("avatar status:", s);
+                          }}
+                        />
+                      ) : (
+                        <Avatar.Fallback className="AvatarFallback">
+                          {userProfile.firstName.trim().charAt(0).toUpperCase()}
+                        </Avatar.Fallback>
+                      )}
                     </Avatar.Root>
                   ) : (
                     <div id="telegram"></div>
