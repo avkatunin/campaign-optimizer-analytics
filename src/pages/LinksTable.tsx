@@ -867,17 +867,28 @@ const LinksTable = () => {
                   id="auth"
                 >
                   {userProfile.username != null ? (
-                    <Avatar.Root>
-                      {userProfile.photoUrl ? (
-                        <Avatar.Image
-                          src={userProfile.photoUrl}
-                          alt={userProfile.firstName}
-                        />
-                      ) : (
-                        <Avatar.Fallback>
-                          {userProfile.firstName}
-                        </Avatar.Fallback>
-                      )}
+                    <Avatar.Root
+                      style={{
+                        width: 45,
+                        height: 45,
+                        borderRadius: "50%",
+                        overflow: "hidden",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        background: "#f3f4f6",
+                        color: "#374151",
+                        fontWeight: 600,
+                      }}
+                    >
+                      <Avatar.Image
+                        src={userProfile.photoUrl}
+                        alt={userProfile.firstName}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      />
+                      <Avatar.Fallback delayMs={300}>
+                        {userProfile.firstName.trim().charAt(0).toUpperCase()}
+                      </Avatar.Fallback>
                     </Avatar.Root>
                   ) : (
                     <div id="telegram"></div>
