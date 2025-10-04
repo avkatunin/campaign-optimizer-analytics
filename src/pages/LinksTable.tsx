@@ -30,6 +30,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import * as CollapsiblePrimitive from "@radix-ui/react-collapsible";
+import * as Avatar from "@radix-ui/react-avatar";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -864,11 +865,18 @@ const LinksTable = () => {
                   id="auth"
                 >
                   {userProfile.username != null ? (
-                    <div>
-                      <span className="text-sm font-medium">
-                        {userProfile.firstName}
-                      </span>
-                    </div>
+                    <Avatar.Root>
+                      {userProfile.photoUrl ? (
+                        <Avatar.Image
+                          src={userProfile.photoUrl}
+                          alt={userProfile.firstName}
+                        />
+                      ) : (
+                        <Avatar.Fallback>
+                          {userProfile.firstName}
+                        </Avatar.Fallback>
+                      )}
+                    </Avatar.Root>
                   ) : (
                     <div id="telegram"></div>
                   )}
