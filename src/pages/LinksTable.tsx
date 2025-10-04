@@ -494,6 +494,7 @@ const LinksTable = () => {
 
   const fetchUserProfilePhoto = async () => {
     try {
+      console.log(userProfile.photoUrl);
       const response = await axios.get(userProfile.photoUrl); // Замените на реальный URL
       setIsUserPhotoAvaliable(true);
       console.log("Ok user photo");
