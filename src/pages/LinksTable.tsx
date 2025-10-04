@@ -867,26 +867,13 @@ const LinksTable = () => {
                   id="auth"
                 >
                   {userProfile.username != null ? (
-                    <Avatar.Root
-                      style={{
-                        width: 45,
-                        height: 45,
-                        borderRadius: "50%",
-                        overflow: "hidden",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        background: "#f3f4f6",
-                        color: "#374151",
-                        fontWeight: 600,
-                      }}
-                    >
+                    <Avatar.Root className="AvatarRoot">
                       <Avatar.Image
                         src={userProfile.photoUrl}
                         alt={userProfile.firstName}
-                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        className="AvatarImage"
                       />
-                      <Avatar.Fallback delayMs={300}>
+                      <Avatar.Fallback className="AvatarFallback" delayMs={600}>
                         {userProfile.firstName.trim().charAt(0).toUpperCase()}
                       </Avatar.Fallback>
                     </Avatar.Root>
