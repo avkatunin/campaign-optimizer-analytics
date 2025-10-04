@@ -61,7 +61,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { UserInfo } from "os";
 import Logo from "@/components/Logo";
 
-import "./styles.css";
+import "./style.css";
 
 const Collapsible = CollapsiblePrimitive.Root;
 const CollapsibleTrigger = CollapsiblePrimitive.CollapsibleTrigger;
