@@ -872,6 +872,10 @@ const LinksTable = () => {
                         src={userProfile.photoUrl}
                         alt={userProfile.firstName}
                         className="AvatarImage"
+                        onLoadingStatusChange={(s) => {
+                          // ожидаемые значения: "loading" | "loaded" | "error"
+                          console.log("avatar status:", s);
+                        }}
                       />
                       <Avatar.Fallback className="AvatarFallback">
                         {userProfile.firstName.trim().charAt(0).toUpperCase()}
