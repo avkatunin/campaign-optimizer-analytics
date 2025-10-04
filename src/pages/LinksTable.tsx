@@ -496,10 +496,11 @@ const LinksTable = () => {
     try {
       const response = await axios.get(userProfile.photoUrl); // Замените на реальный URL
       setIsUserPhotoAvaliable(true);
+      console.log("Ok user photo");
       // Сохраняем полученные данные в состоянии
     } catch (error) {
-      console.log("Error user");
-      setIsUserPhotoAvaliable(true);
+      console.log("Error user photo");
+      setIsUserPhotoAvaliable(false);
     }
   };
 
