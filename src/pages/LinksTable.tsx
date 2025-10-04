@@ -873,7 +873,7 @@ const LinksTable = () => {
                         alt={userProfile.firstName}
                         className="AvatarImage"
                       />
-                      <Avatar.Fallback className="AvatarFallback" delayMs={600}>
+                      <Avatar.Fallback className="AvatarFallback">
                         {userProfile.firstName.trim().charAt(0).toUpperCase()}
                       </Avatar.Fallback>
                     </Avatar.Root>
