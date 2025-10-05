@@ -397,6 +397,7 @@ const LinksTable = () => {
 
           document.getElementById("telegram").appendChild(scriptElement);
         } else {
+          fetchUserProfilePhoto();
           fetchData();
         }
       });
@@ -406,7 +407,6 @@ const LinksTable = () => {
 
   const fetchData = async () => {
     try {
-      fetchUserProfilePhoto();
       console.log("LinksTable");
       const response = await axios.get(
         "https://app.vneshka.pro/api/v1/controlpanel/products"
