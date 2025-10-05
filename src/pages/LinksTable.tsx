@@ -397,16 +397,16 @@ const LinksTable = () => {
 
           document.getElementById("telegram").appendChild(scriptElement);
         } else {
-          try {
-            console.log(response.data.photoUrl);
-            axios.get(response.data.photoUrl); // Замените на реальный URL
-            setIsUserPhotoAvaliable(true);
-            console.log("Ok user photo");
-            // Сохраняем полученные данные в состоянии
-          } catch (error) {
-            console.log("Error user photo");
-            setIsUserPhotoAvaliable(false);
-          }
+          axios
+            .get(response.data.photoUrl)
+            .then((response1) => {
+              console.log("Status Code:", response1.status);
+              setIsUserPhotoAvaliable(true);
+            })
+            .catch((error) => {
+              setIsUserPhotoAvaliable(false);
+              console.error("Error:", error);
+            });
           fetchData();
         }
       });
