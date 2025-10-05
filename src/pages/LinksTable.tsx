@@ -31,6 +31,8 @@ import {
 } from "lucide-react";
 import * as CollapsiblePrimitive from "@radix-ui/react-collapsible";
 import * as Avatar from "@radix-ui/react-avatar";
+import * as Tooltip from "@radix-ui/react-tooltip";
+
 import { toast } from "sonner";
 import {
   Dialog,
@@ -891,23 +893,34 @@ const LinksTable = () => {
                   id="auth"
                 >
                   {userProfile.username != null ? (
-                    <Avatar.Root className="AvatarRoot">
-                      {isUserPhotoAvaliable ? (
-                        <Avatar.Image
-                          src={userProfile.photoUrl}
-                          alt={userProfile.firstName}
-                          className="AvatarImage"
-                          onLoadingStatusChange={(s) => {
-                            // ожидаемые значения: "loading" | "loaded" | "error"
-                            console.log("avatar status:", s);
-                          }}
-                        />
-                      ) : (
-                        <Avatar.Fallback className="AvatarFallback">
-                          {userProfile.firstName.trim().charAt(0).toUpperCase()}
-                        </Avatar.Fallback>
-                      )}
-                    </Avatar.Root>
+                    <Tooltip.Root>
+                      <Tooltip.Trigger>
+                        <Avatar.Root className="AvatarRoot">
+                          {isUserPhotoAvaliable ? (
+                            <Avatar.Image
+                              src={userProfile.photoUrl}
+                              alt={userProfile.firstName}
+                              className="AvatarImage"
+                              onLoadingStatusChange={(s) => {
+                                // ожидаемые значения: "loading" | "loaded" | "error"
+                                console.log("avatar status:", s);
+                              }}
+                            />
+                          ) : (
+                            <Avatar.Fallback className="AvatarFallback">
+                              {userProfile.firstName
+                                .trim()
+                                .charAt(0)
+                                .toUpperCase()}
+                            </Avatar.Fallback>
+                          )}
+                        </Avatar.Root>
+                      </Tooltip.Trigger>
+                      <Tooltip.Content side="bottom">
+                        Ваш идентификатор: {userProfile.username}
+                        <Tooltip.Arrow />
+                      </Tooltip.Content>
+                    </Tooltip.Root>
                   ) : (
                     <div id="telegram"></div>
                   )}
