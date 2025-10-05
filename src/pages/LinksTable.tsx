@@ -397,7 +397,16 @@ const LinksTable = () => {
 
           document.getElementById("telegram").appendChild(scriptElement);
         } else {
-          fetchUserProfilePhoto();
+          try {
+            console.log(response.data.photoUrl);
+            axios.get(response.data.photoUrl); // Замените на реальный URL
+            setIsUserPhotoAvaliable(true);
+            console.log("Ok user photo");
+            // Сохраняем полученные данные в состоянии
+          } catch (error) {
+            console.log("Error user photo");
+            setIsUserPhotoAvaliable(false);
+          }
           fetchData();
         }
       });
