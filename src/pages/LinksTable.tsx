@@ -893,34 +893,39 @@ const LinksTable = () => {
                   id="auth"
                 >
                   {userProfile.username != null ? (
-                    <Tooltip.Root>
-                      <Tooltip.Trigger>
-                        <Avatar.Root className="AvatarRoot">
-                          {isUserPhotoAvaliable ? (
-                            <Avatar.Image
-                              src={userProfile.photoUrl}
-                              alt={userProfile.firstName}
-                              className="AvatarImage"
-                              onLoadingStatusChange={(s) => {
-                                // ожидаемые значения: "loading" | "loaded" | "error"
-                                console.log("avatar status:", s);
-                              }}
-                            />
-                          ) : (
-                            <Avatar.Fallback className="AvatarFallback">
-                              {userProfile.firstName
-                                .trim()
-                                .charAt(0)
-                                .toUpperCase()}
-                            </Avatar.Fallback>
-                          )}
-                        </Avatar.Root>
-                      </Tooltip.Trigger>
-                      <Tooltip.Content side="bottom">
-                        Ваш идентификатор: {userProfile.username}
-                        <Tooltip.Arrow />
-                      </Tooltip.Content>
-                    </Tooltip.Root>
+                    <Tooltip.Provider
+                      delayDuration={100}
+                      skipDelayDuration={500}
+                    >
+                      <Tooltip.Root>
+                        <Tooltip.Trigger>
+                          <Avatar.Root className="AvatarRoot">
+                            {isUserPhotoAvaliable ? (
+                              <Avatar.Image
+                                src={userProfile.photoUrl}
+                                alt={userProfile.firstName}
+                                className="AvatarImage"
+                                onLoadingStatusChange={(s) => {
+                                  // ожидаемые значения: "loading" | "loaded" | "error"
+                                  console.log("avatar status:", s);
+                                }}
+                              />
+                            ) : (
+                              <Avatar.Fallback className="AvatarFallback">
+                                {userProfile.firstName
+                                  .trim()
+                                  .charAt(0)
+                                  .toUpperCase()}
+                              </Avatar.Fallback>
+                            )}
+                          </Avatar.Root>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content side="bottom">
+                          Ваш идентификатор: {userProfile.username}
+                          <Tooltip.Arrow />
+                        </Tooltip.Content>
+                      </Tooltip.Root>
+                    </Tooltip.Provider>
                   ) : (
                     <div id="telegram"></div>
                   )}
