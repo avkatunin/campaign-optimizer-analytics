@@ -401,7 +401,7 @@ const LinksTable = () => {
           document.getElementById("telegram").appendChild(scriptElement);
         } else {
           axios
-            .get(response.data.photoUrl)
+            .get("https://app.vneshka.pro/api/v1/controlpanel/profile/photo")
             .then((response1) => {
               console.log("Status Code:", response1.status);
               setIsUserPhotoAvaliable(true);
