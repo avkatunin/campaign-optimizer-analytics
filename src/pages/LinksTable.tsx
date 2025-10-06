@@ -925,7 +925,23 @@ const LinksTable = () => {
                           side="bottom"
                           className="TooltipContent"
                         >
-                          Ваш идентификатор: {userProfile.paymentId}
+                          <div className="py-4">
+                            <p className="text-gray-600 mb-4">
+                              {userProfile.firstName}, информация по вашему
+                              профилю:
+                            </p>
+                            <p className="text-gray-600 mb-4">
+                              Ссылок в этом месяце:{" "}
+                              {userProfile.linksGeneratedMonth}
+                            </p>
+                            <p className="text-gray-600 mb-4">
+                              Всего ссылок: {userProfile.linksGeneratedAll}
+                            </p>
+                            <p className="text-gray-600 mb-4">
+                              Ваш идентификатор для оплаты:{" "}
+                              {userProfile.paymentId}
+                            </p>
+                          </div>
                           <Tooltip.Arrow
                             className="TooltipArrow"
                             sideOffset={5}
