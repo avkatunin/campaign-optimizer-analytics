@@ -1029,7 +1029,7 @@ const LinksTable = () => {
                   </div>
                   <button
                     onClick={handleAddProduct}
-                    className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md"
+                    className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md flex items-center justify-center"
                   >
                     Добавить
                   </button>
