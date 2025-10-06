@@ -1376,22 +1376,20 @@ const LinksTable = () => {
             </DialogTitle>
           </DialogHeader>
           <div className="py-4">
-            <p style="margin-bottom: 1rem; color: rgb(75 85 99 / var(--tw-text-opacity, 1)); --tw-text-opacity=1">
-              1 ссылка: 350₽
-            </p>
-            <p style="margin-bottom: 1rem; color: rgb(75 85 99 / var(--tw-text-opacity, 1)); --tw-text-opacity=1">
+            <p className="text-gray-600 mb-4">1 ссылка: 350₽</p>
+            <p className="text-gray-600 mb-4">
               5 ссылок: 1 575₽{" "}
               <span style="text-decoration: line-through;">1750₽</span>
             </p>
-            <p style="margin-bottom: 1rem; color: rgb(75 85 99 / var(--tw-text-opacity, 1)); --tw-text-opacity=1">
+            <p className="text-gray-600 mb-4">
               15 ссылок: 4 200₽{" "}
               <span style="text-decoration: line-through;">5250₽</span>
             </p>
-            <p style="margin-bottom: 1rem; color: rgb(75 85 99 / var(--tw-text-opacity, 1)); --tw-text-opacity=1">
+            <p className="text-gray-600 mb-4">
               50 ссылок: 12 250₽{" "}
               <span style="text-decoration: line-through;">17 500₽</span>
             </p>
-            <p style="margin-bottom: 1rem; color: rgb(75 85 99 / var(--tw-text-opacity, 1)); --tw-text-opacity=1">
+            <p className="text-gray-600 mb-4">
               100 ссылок: 21 000₽{" "}
               <span style="text-decoration: line-through;">35000₽</span>
             </p>
