@@ -848,6 +848,10 @@ const LinksTable = () => {
     }
   };
 
+  const myStyle = {
+    textDecorationLine: "line-through",
+  };
+
   const handleCampaignDragEnd = (event: DragEndEvent, productId: string) => {
     const { active, over } = event;
 
@@ -1378,20 +1382,16 @@ const LinksTable = () => {
           <div className="py-4">
             <p className="text-gray-600 mb-4">1 ссылка: 350₽</p>
             <p className="text-gray-600 mb-4">
-              5 ссылок: 1 575₽{" "}
-              <span style="text-decoration: line-through;">1750₽</span>
+              5 ссылок: 1 575₽ <span style={myStyle}>1750₽</span>
             </p>
             <p className="text-gray-600 mb-4">
-              15 ссылок: 4 200₽{" "}
-              <span style="text-decoration: line-through;">5250₽</span>
+              15 ссылок: 4 200₽ <span style={myStyle}>5250₽</span>
             </p>
             <p className="text-gray-600 mb-4">
-              50 ссылок: 12 250₽{" "}
-              <span style="text-decoration: line-through;">17 500₽</span>
+              50 ссылок: 12 250₽ <span style={myStyle}>17 500₽</span>
             </p>
             <p className="text-gray-600 mb-4">
-              100 ссылок: 21 000₽{" "}
-              <span style="text-decoration: line-through;">35000₽</span>
+              100 ссылок: 21 000₽ <span style={myStyle}>35 000₽</span>
             </p>
           </div>
           <button className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md flex items-center justify-center">
