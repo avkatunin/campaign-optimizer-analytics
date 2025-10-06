@@ -920,9 +920,15 @@ const LinksTable = () => {
                             )}
                           </Avatar.Root>
                         </Tooltip.Trigger>
-                        <Tooltip.Content side="bottom">
+                        <Tooltip.Content
+                          side="bottom"
+                          className="TooltipContent"
+                        >
                           Ваш идентификатор: {userProfile.username}
-                          <Tooltip.Arrow />
+                          <Tooltip.Arrow
+                            className="TooltipArrow"
+                            sideOffset={5}
+                          />
                         </Tooltip.Content>
                       </Tooltip.Root>
                     </Tooltip.Provider>
