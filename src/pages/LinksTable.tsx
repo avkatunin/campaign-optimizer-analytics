@@ -93,6 +93,7 @@ interface Product {
 }
 
 interface UserProfile {
+  paymentId: string;
   username: string;
   firstName: string;
   lastName: string;
@@ -924,7 +925,7 @@ const LinksTable = () => {
                           side="bottom"
                           className="TooltipContent"
                         >
-                          Ваш идентификатор: {userProfile.username}
+                          Ваш идентификатор: {userProfile.paymentId}
                           <Tooltip.Arrow
                             className="TooltipArrow"
                             sideOffset={5}
@@ -1354,18 +1355,31 @@ const LinksTable = () => {
         <DialogContent className="sm:max-w-[400px]">
           <DialogHeader>
             <DialogTitle className="text-xl font-display text-destructive">
-              Лимит использован
+              У вас нет доступных ссылок
             </DialogTitle>
           </DialogHeader>
           <div className="py-4">
+            <p className="text-gray-600 mb-4">1 кампания: 350 рублей</p>
             <p className="text-gray-600 mb-4">
-              У вас нет доступных ссылок для генерации.
+              5 кампания: 1 575 рублей (-10%)
             </p>
-            <p className="text-gray-600">Купить ссылки</p>
+            <p className="text-gray-600 mb-4">
+              15 кампания: 4 200 рублей (-20%)
+            </p>
+            <p className="text-gray-600 mb-4">
+              50 кампания: 12 250 рублей (-30%)
+            </p>
+            <p className="text-gray-600 mb-4">
+              100 кампания: 21 000 рублей (-40%)
+            </p>
           </div>
           <button className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md">
-            Оплата
+            Перейти к оплате
           </button>
+          <p className="text-gray-600 mb-4">
+            Сообщите менеджеру ваш идентификатор для оплаты:{" "}
+            {userProfile.paymentId}
+          </p>
         </DialogContent>
       </Dialog>
     </div>
