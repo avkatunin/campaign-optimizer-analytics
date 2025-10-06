@@ -1369,10 +1369,7 @@ const LinksTable = () => {
               100 ссылок: 21 000 рублей (-40%)
             </p>
           </div>
-          <button
-            style="text-align: center"
-            className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md items-center"
-          >
+          <button className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md">
             Перейти к оплате
           </button>
           <p className="text-gray-600 mb-4">
