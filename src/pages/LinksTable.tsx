@@ -506,8 +506,9 @@ const LinksTable = () => {
 
   const fetchUserProfilePhoto = async () => {
     try {
-      console.log(userProfile.photoUrl);
-      const response = await axios.get(userProfile.photoUrl); // Замените на реальный URL
+      const response = await axios.get(
+        "https://app.vneshka.pro/api/v1/controlpanel/profile/photo"
+      ); // Замените на реальный URL
       setIsUserPhotoAvaliable(true);
       console.log("Ok user photo");
       // Сохраняем полученные данные в состоянии
