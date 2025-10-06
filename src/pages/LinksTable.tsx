@@ -1359,21 +1359,17 @@ const LinksTable = () => {
             </DialogTitle>
           </DialogHeader>
           <div className="py-4">
-            <p className="text-gray-600 mb-4">1 кампания: 350 рублей</p>
+            <p className="text-gray-600 mb-4">1 ссылка: 350 рублей</p>
+            <p className="text-gray-600 mb-4">5 ссылок: 1 575 рублей (-10%)</p>
+            <p className="text-gray-600 mb-4">15 ссылок: 4 200 рублей (-20%)</p>
             <p className="text-gray-600 mb-4">
-              5 кампания: 1 575 рублей (-10%)
+              50 ссылок: 12 250 рублей (-30%)
             </p>
             <p className="text-gray-600 mb-4">
-              15 кампания: 4 200 рублей (-20%)
-            </p>
-            <p className="text-gray-600 mb-4">
-              50 кампания: 12 250 рублей (-30%)
-            </p>
-            <p className="text-gray-600 mb-4">
-              100 кампания: 21 000 рублей (-40%)
+              100 ссылок: 21 000 рублей (-40%)
             </p>
           </div>
-          <button className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md">
+          <button className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md items-center">
             Перейти к оплате
           </button>
           <p className="text-gray-600 mb-4">
