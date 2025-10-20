@@ -1380,18 +1380,15 @@ const LinksTable = () => {
             </DialogTitle>
           </DialogHeader>
           <div className="py-4">
-            <p className="text-gray-600 mb-4">1 ссылка: 350₽</p>
+            <p className="text-gray-600 mb-4">1 ссылка: 299₽</p>
             <p className="text-gray-600 mb-4">
-              5 ссылок: 1 575₽ <span style={myStyle}>1750₽</span>
+              5 ссылок: 1 349₽ <span style={myStyle}>1 495₽</span>
             </p>
             <p className="text-gray-600 mb-4">
-              15 ссылок: 4 200₽ <span style={myStyle}>5250₽</span>
+              10 ссылок: 2 399₽ <span style={myStyle}>2 990₽ </span>
             </p>
             <p className="text-gray-600 mb-4">
-              50 ссылок: 12 250₽ <span style={myStyle}>17 500₽</span>
-            </p>
-            <p className="text-gray-600 mb-4">
-              100 ссылок: 21 000₽ <span style={myStyle}>35 000₽</span>
+              20 ссылок: 4 199₽ <span style={myStyle}>5 980₽</span>
             </p>
           </div>
           <button className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md flex items-center justify-center">
