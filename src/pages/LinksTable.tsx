@@ -79,7 +79,7 @@ interface Campaign {
   postLink?: string;
   deeplink: string;
   totalViews: number;
-  last7DaysViews: number;
+  last3DaysViews: number;
   lastDayViews: number;
   durationDays: number;
 }
@@ -346,11 +346,10 @@ const SortableCampaignRow = ({
 
           <div className="bg-gray-50 p-2 rounded-lg">
             <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
-              <BarChart className="w-3 h-3" />
-              7дней
+              <BarChart className="w-3 h-3" />3 дня
             </div>
             <div className="font-semibold">
-              {campaign.last7DaysViews.toLocaleString()}
+              {campaign.last3DaysViews.toLocaleString()}
             </div>
           </div>
 
