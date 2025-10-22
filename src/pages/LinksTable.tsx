@@ -1157,7 +1157,7 @@ const LinksTable = () => {
                                         htmlFor="advertiser"
                                         className="text-sm font-medium"
                                       >
-                                        Рекламодатель *
+                                        Блогер *
                                       </label>
                                       <Input
                                         id="advertiser"
@@ -1179,7 +1179,7 @@ const LinksTable = () => {
                                       htmlFor="advertiserLink"
                                       className="text-sm font-medium"
                                     >
-                                      Ссылка на профиль рекламодателя
+                                      Ссылка на профиль блогера
                                     </label>
                                     <Input
                                       id="advertiserLink"
@@ -1337,7 +1337,7 @@ const LinksTable = () => {
           <div className="py-4">
             <p className="text-gray-600 mb-4">
               Ваша уникальная ссылка для рекламной кампании создана. Скопируйте
-              ее и передайте рекламодателю для размещения:
+              ее и передайте рекламоразместителю:
             </p>
             <div className="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
               <div className="flex-1 overflow-hidden">
@@ -1359,9 +1359,8 @@ const LinksTable = () => {
               Что дальше?
             </h4>
             <p className="text-sm text-gray-600">
-              Передайте эту ссылку рекламодателю. Когда рекламная кампания будет
-              запущена, добавьте ссылку на пост, чтобы легко отслеживать
-              источник трафика.
+              Когда рекламная кампания будет запущена, добавьте ссылку на пост,
+              чтобы легко отслеживать источник трафика.
             </p>
           </div>
         </DialogContent>
