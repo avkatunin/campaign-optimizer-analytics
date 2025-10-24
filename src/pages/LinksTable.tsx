@@ -1389,7 +1389,10 @@ const LinksTable = () => {
               20 ссылок: 4 199₽ <span style={myStyle}>5 980₽</span>
             </p>
           </div>
-          <button className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md flex items-center justify-center">
+          <button
+            className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-colors text-white font-medium py-2.5 rounded-lg shadow-md flex items-center justify-center"
+            onClick={() => window.open("https://t.me/vneshkapro", "_blank")}
+          >
             Перейти к оплате
           </button>
           <p className="text-gray-600 mb-4">
