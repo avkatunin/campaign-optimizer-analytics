@@ -346,7 +346,8 @@ const SortableCampaignRow = ({
 
           <div className="bg-gray-50 p-2 rounded-lg">
             <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
-              <BarChart className="w-3 h-3" />3 дня
+              <BarChart className="w-3 h-3" />
+              3дня
             </div>
             <div className="font-semibold">
               {campaign.last3DaysViews.toLocaleString()}
