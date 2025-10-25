@@ -7,7 +7,7 @@ const Logo = () => {
       to="/"
       className="font-display text-xl font-bold flex items-center gap-2"
     >
-      <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+      <div className="text-2xl font-bold bg-gradient-primary text-blue-600">
         ВнешкаПРО
       </div>
     </Link>
