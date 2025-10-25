@@ -71,7 +71,7 @@ const CollapsibleContent = CollapsiblePrimitive.CollapsibleContent;
 
 interface Campaign {
   id: string;
-  platform: "instagram" | "tiktok" | "youtube" | "telegram" | "vk" | "other";
+  platform: "telegram" | "instagram" | "tiktok" | "youtube" | "vk" | "other";
   advertiser: string;
   advertiserLink?: string;
   startDate?: Date;
@@ -205,12 +205,12 @@ const SortableCampaignRow = ({
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
+      case "telegram":
+        return <Telegram className="w-4 h-4" />;
       case "instagram":
         return <Instagram className="w-4 h-4" />;
       case "youtube":
         return <Youtube className="w-4 h-4" />;
-      case "telegram":
-        return <Telegram className="w-4 h-4" />;
       case "vk":
         return <div className="w-4 h-4 font-bold text-xs">VK</div>;
       case "tiktok":
@@ -266,7 +266,7 @@ const SortableCampaignRow = ({
                 <Input
                   value={postLinkValue}
                   onChange={(e) => setPostLinkValue(e.target.value)}
-                  placeholder="https://instagram.com/p/example"
+                  placeholder="https://t.me/example/100"
                   className="text-xs h-7 min-w-[200px]"
                 />
                 <button
@@ -464,14 +464,14 @@ const LinksTable = () => {
   const [newProduct, setNewProduct] = useState({ title: "", url: "" });
   const [newCampaign, setNewCampaign] = useState<{
     productId: string;
-    platform: "instagram" | "tiktok" | "youtube" | "telegram" | "vk" | "other";
+    platform: "telegram" | "instagram" | "tiktok" | "youtube" | "vk" | "other";
     advertiser: string;
     advertiserLink: string;
     startDate: string;
     cost: string;
   }>({
     productId: "",
-    platform: "instagram",
+    platform: "telegram",
     advertiser: "",
     advertiserLink: "",
     startDate: "",
@@ -624,7 +624,7 @@ const LinksTable = () => {
 
     setNewCampaign({
       productId: "",
-      platform: "instagram",
+      platform: "telegram",
       advertiser: "",
       advertiserLink: "",
       startDate: "",
@@ -808,12 +808,12 @@ const LinksTable = () => {
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
+      case "telegram":
+        return <Telegram className="w-4 h-4" />;
       case "instagram":
         return <Instagram className="w-4 h-4" />;
       case "youtube":
         return <Youtube className="w-4 h-4" />;
-      case "telegram":
-        return <Telegram className="w-4 h-4" />;
       case "vk":
         return <div className="w-4 h-4 font-bold text-xs">VK</div>;
       case "tiktok":
@@ -1140,14 +1140,14 @@ const LinksTable = () => {
                                         }
                                         className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                                       >
+                                        <option value="telegram">
+                                          Telegram
+                                        </option>
                                         <option value="instagram">
                                           Instagram
                                         </option>
                                         <option value="tiktok">TikTok</option>
                                         <option value="youtube">YouTube</option>
-                                        <option value="telegram">
-                                          Telegram
-                                        </option>
                                         <option value="vk">VK</option>
                                         <option value="other">Другое</option>
                                       </select>
@@ -1191,7 +1191,7 @@ const LinksTable = () => {
                                           advertiserLink: e.target.value,
                                         })
                                       }
-                                      placeholder="https://instagram.com/example"
+                                      placeholder="https://t.me/example"
                                       className="rounded-lg"
                                     />
                                   </div>
