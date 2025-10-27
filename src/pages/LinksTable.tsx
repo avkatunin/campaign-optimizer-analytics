@@ -960,7 +960,7 @@ const LinksTable = () => {
                 </div>
               </div>
             ) : (
-              <div id="telegram"></div>
+              <div></div>
             )}
           </div>
         </div>
@@ -1322,7 +1322,21 @@ const LinksTable = () => {
           </div>
         </div>
       ) : (
-        <span className="text-sm font-medium">Авторизуйтесь</span>
+        <div className="container mx-auto px-6 pt-24 pb-20">
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
+            <div className="p-8 border-b border-gray-100 bg-gradient-to-r from-primary/20 via-primary/10 to-transparent flex justify-between items-center">
+              <div>
+                <h1 className="font-display text-2xl font-bold text-gray-900">
+                  Войдите с помощью Telegram для быстрого и надежного доступа
+                </h1>
+                <p className="text-gray-600 mt-1">
+                  Просто нажмите кнопку и подтвердите свою личность через ваш аккаунт Telegram
+                </p>
+              </div>
+              <div id="telegram"></div>
+            </div>
+          </div>
+        </div>
       )}
       {/* Generated Link Dialog */}
       <Dialog
