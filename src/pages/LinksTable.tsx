@@ -28,6 +28,7 @@ import {
   Check,
   User,
   RefreshCw,
+  MessageCircle,
 } from "lucide-react";
 import * as CollapsiblePrimitive from "@radix-ui/react-collapsible";
 import * as Avatar from "@radix-ui/react-avatar";
@@ -884,6 +885,16 @@ const LinksTable = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Logo />
+            </div>
+            <div className="flex items-center gap-4">
+             <Link
+                to="https://t.me/vneshkapro" 
+                target="_blank" rel="noreferrer"
+                className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary"
+              >
+                  <MessageCircle className="w-4 h-4" />
+                  <span class="text-sm font-medium">Связаться с нами</span>
+              </Link>
             </div>
 
             {userProfile.username != null ? (
