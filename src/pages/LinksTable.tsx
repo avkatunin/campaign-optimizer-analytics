@@ -885,9 +885,7 @@ const LinksTable = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Logo />
-            </div>
-            <div className="flex items-center gap-4">
-             <Link
+              <Link
                 to="https://t.me/vneshkapro" 
                 target="_blank" rel="noreferrer"
                 className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary"
