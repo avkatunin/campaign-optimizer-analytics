@@ -69,11 +69,16 @@ import "./style.css";
 import {
   BarChart as RBarChart,
   Bar,
+  Text,
   XAxis,
   YAxis,
   Tooltip as TooltipChart,
   ResponsiveContainer,
   CartesianGrid,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
 } from "recharts";
 
 const Collapsible = CollapsiblePrimitive.Root;
@@ -242,7 +247,11 @@ const SortableCampaignRow = ({
   };
 
   return (
-    <div ref={setNodeRef} style={style} className="bg-white border border-gray-200 shadow-md transition-all hover:shadow-lg">
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="bg-white border border-gray-200 shadow-md transition-all hover:shadow-lg"
+    >
       <div className="flex items-center p-4">
         <div
           {...attributes}
@@ -401,9 +410,7 @@ const LinksTable = () => {
 
     //document.getElementById("auth").appendChild(tg);
     axios
-      .get(
-        "https://app.vneshka.pro/api/v1/controlpanel/profile/me"
-      )
+      .get("https://app.vneshka.pro/api/v1/controlpanel/profile/me")
       .then((response) => {
         setUserProfile(response.data);
         if (response.data.username == null) {
@@ -435,13 +442,33 @@ const LinksTable = () => {
       });
   }, []);
 
+  const COLORS10 = [
+    "#a6cee3",
+    "#1f78b4",
+    "#b2df8a",
+    "#33a02c",
+    "#fb9a99",
+    "#e31a1c",
+    "#fdbf6f",
+    "#ff7f00",
+    "#cab2d6",
+    "#6a3d9a",
+  ];
+
   const [dataViews, setDataViews] = useState([]);
+  const [dataCityViews, setDataCityViews] = useState([]);
 
   const getDataViews = async (id: string) => {
     const { data } = await axios(
       "https://app.vneshka.pro/api/v1/controlpanel/campaigns/" + id
     );
     setDataViews(data);
+  };
+  const getDataCityViews = async (id: string) => {
+    const { data } = await axios(
+      "https://app.vneshka.pro/api/v1/controlpanel/campaigns/" + id + "/cities"
+    );
+    setDataCityViews(data);
   };
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -563,6 +590,7 @@ const LinksTable = () => {
       setOpenCollapsibleCampaign(id);
     }
     getDataViews(id);
+    getDataCityViews(id);
   };
 
   const toggleCollapsibleFake = (id: string) => {
@@ -880,6 +908,10 @@ const LinksTable = () => {
 
   const myStyle = {
     textDecorationLine: "line-through",
+  };
+
+  const tableStyle = {
+    minWidth: "765px",
   };
 
   const handleCampaignDragEnd = (event: DragEndEvent, productId: string) => {
@@ -1313,82 +1345,157 @@ const LinksTable = () => {
                                   )}
                                   strategy={verticalListSortingStrategy}
                                 >
-                                      <div className="bg-white border border-gray-200 shadow-md transition-all hover:shadow-lg flex">
-                                        <div className="w-[5%]"></div>
-                                        <div className="flex flex-1 min-w-0 text-gray-500 text-sm p-4">Кампания</div>
-                                        <div className="flex flex-1 min-w-0 text-gray-500 text-sm p-4">Уникальная ссылка</div>
-                                        <div className="flex flex-1 min-w-0 text-gray-500 text-sm p-4">
-                                          Статистика переходов
-                                        </div>
-                                      </div>
-                                      {product.campaigns.map((campaign) => (
-                                        <Collapsible
-                                          key={campaign.id}
-                                          open={
-                                            openCollapsibleCampaign ===
-                                            campaign.id
-                                          }
-                                          onOpenChange={() =>
-                                            toggleCollapsibleCampaign(
-                                              campaign.id
-                                            )
-                                          }
-                                        >
-                                          <SortableCampaignRow
-                                            key={campaign.id}
-                                            campaign={campaign}
-                                            productId={product.id}
-                                            onUpdatePostLink={
-                                              updateCampaignPostLink
-                                            }
-                                            onRefreshStats={
-                                              refreshCampaignStats
-                                            }
-                                            isOpen={
-                                              openCollapsibleCampaign ===
-                                              campaign.id
-                                            }
-                                            onToggle={() =>
-                                              toggleCollapsibleCampaign(
-                                                campaign.id
-                                              )
-                                            }
-                                          />
-                                          <CollapsibleContent>
-                                            {dataViews.length === 0 ? (
-                                              <div></div>
-                                            ) : (
-                                              <div className="flex">
-                                                <div className="w-[15%]"></div>
-                                                <div className="p-4 w-full h-[360px]">
-                                                  <ResponsiveContainer
-                                                    width="100%"
-                                                    height="100%"
-                                                  >
-                                                    <RBarChart
-                                                      data={dataViews}
-                                                      barCategoryGap={16}
-                                                    >
-                                                      <CartesianGrid strokeDasharray="3 3" />
-                                                      <XAxis dataKey="period" />
-                                                      <YAxis
-                                                        allowDecimals={false}
-                                                      />
-                                                      <TooltipChart />
-                                                      <Bar
-                                                        dataKey="views"
-                                                        fill="hsl(var(--primary))"
-                                                        radius={[6, 6, 0, 0]}
-                                                      />
-                                                    </RBarChart>
-                                                  </ResponsiveContainer>
-                                                </div>
-                                                <div className="w-[15%]"></div>
+                                  <div
+                                    className="bg-white border border-gray-200 shadow-md transition-all hover:shadow-lg flex"
+                                    style={{ minWidth: 765 }}
+                                  >
+                                    <div className="w-[5%]"></div>
+                                    <div className="flex flex-1 min-w-0 text-gray-500 text-sm p-4">
+                                      Кампания
+                                    </div>
+                                    <div className="flex flex-1 min-w-0 text-gray-500 text-sm p-4">
+                                      Уникальная ссылка
+                                    </div>
+                                    <div className="flex flex-1 min-w-0 text-gray-500 text-sm p-4">
+                                      Статистика переходов
+                                    </div>
+                                  </div>
+                                  {product.campaigns.map((campaign) => (
+                                    <Collapsible
+                                      key={campaign.id}
+                                      open={
+                                        openCollapsibleCampaign === campaign.id
+                                      }
+                                      onOpenChange={() =>
+                                        toggleCollapsibleCampaign(campaign.id)
+                                      }
+                                    >
+                                      <SortableCampaignRow
+                                        key={campaign.id}
+                                        campaign={campaign}
+                                        productId={product.id}
+                                        onUpdatePostLink={
+                                          updateCampaignPostLink
+                                        }
+                                        onRefreshStats={refreshCampaignStats}
+                                        isOpen={
+                                          openCollapsibleCampaign ===
+                                          campaign.id
+                                        }
+                                        onToggle={() =>
+                                          toggleCollapsibleCampaign(campaign.id)
+                                        }
+                                      />
+                                      <CollapsibleContent>
+                                        {dataViews.length === 0 ? (
+                                          <div>
+                                            Данные для визуализации отсутствуют
+                                          </div>
+                                        ) : (
+                                          <div className="flex">
+                                            <div className="w-[15%]"></div>
+                                            <div className="p-4 w-full h-[360px]">
+                                              <div className="flex flex-1 min-w-0 text-gray-500 text-sm p-4">
+                                                Распределение количества
+                                                переходов по дням и городам
                                               </div>
-                                            )}
-                                          </CollapsibleContent>
-                                        </Collapsible>
-                                      ))}
+                                              <ResponsiveContainer
+                                                width="100%"
+                                                height="100%"
+                                              >
+                                                <RBarChart
+                                                  data={dataViews}
+                                                  barCategoryGap={16}
+                                                >
+                                                  <Text
+                                                    x={200}
+                                                    y={30}
+                                                    dy={8}
+                                                    textAnchor="middle"
+                                                    fontSize="18"
+                                                    fill="#333"
+                                                  >
+                                                    My Bar Chart Title
+                                                  </Text>
+                                                  <CartesianGrid strokeDasharray="3 3" />
+                                                  <XAxis dataKey="period" />
+                                                  <YAxis
+                                                    allowDecimals={false}
+                                                  />
+                                                  <TooltipChart />
+                                                  <Bar
+                                                    dataKey="views"
+                                                    fill="hsl(var(--primary))"
+                                                    radius={[6, 6, 0, 0]}
+                                                  />
+                                                </RBarChart>
+                                              </ResponsiveContainer>
+                                            </div>
+                                            <div className="w-[15%]"></div>
+                                          </div>
+                                        )}
+                                        {dataCityViews.length === 0 ? (
+                                          <div></div>
+                                        ) : (
+                                          <div className="flex">
+                                            <div className="w-[10%]"></div>
+                                            <div className="p-4 w-full h-[480px]">
+                                              <ResponsiveContainer
+                                                width="100%"
+                                                height="100%"
+                                              >
+                                                <PieChart>
+                                                  <Text
+                                                    x={200}
+                                                    y={30}
+                                                    dy={8}
+                                                    textAnchor="middle"
+                                                    fontSize="18"
+                                                    fill="#333"
+                                                  >
+                                                    My Bar Chart Title
+                                                  </Text>
+                                                  <Pie
+                                                    data={dataCityViews}
+                                                    dataKey="views"
+                                                    nameKey="city"
+                                                    cx="50%"
+                                                    cy="50%"
+                                                    outerRadius={140}
+                                                    innerRadius={20} // уберите для обычного pie без «дырки»
+                                                    paddingAngle={2}
+                                                    label
+                                                  >
+                                                    {dataCityViews.map(
+                                                      (entry, i) => (
+                                                        <Cell
+                                                          key={`cell-${i}`}
+                                                          fill={
+                                                            COLORS10[i] ??
+                                                            COLORS10[
+                                                              COLORS10.length -
+                                                                1
+                                                            ]
+                                                          }
+                                                          stroke="none"
+                                                        />
+                                                      )
+                                                    )}
+                                                  </Pie>
+                                                  <TooltipChart />
+                                                  <Legend
+                                                    verticalAlign="bottom"
+                                                    height={28}
+                                                  />
+                                                </PieChart>
+                                              </ResponsiveContainer>
+                                            </div>
+                                            <div className="w-[10%]"></div>
+                                          </div>
+                                        )}
+                                      </CollapsibleContent>
+                                    </Collapsible>
+                                  ))}
                                 </SortableContext>
                               </DndContext>
                             </div>
