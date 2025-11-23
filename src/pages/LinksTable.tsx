@@ -402,9 +402,7 @@ const LinksTable = () => {
 
     //document.getElementById("auth").appendChild(tg);
     axios
-      .get(
-        "https://app.vneshka.pro/api/v1/controlpanel/profile/me/test?cookie=9C72FEE9-DACE-4939-8520-FE58F7E2C5FF"
-      )
+      .get("https://app.vneshka.pro/api/v1/controlpanel/profile/me")
       .then((response) => {
         setUserProfile(response.data);
         if (response.data.username == null) {
@@ -471,7 +469,7 @@ const LinksTable = () => {
     try {
       console.log("LinksTable");
       const response = await axios.get(
-        "https://app.vneshka.pro/api/v1/controlpanel/products/test?cookie=9C72FEE9-DACE-4939-8520-FE58F7E2C5FF"
+        "https://app.vneshka.pro/api/v1/controlpanel/products"
       ); // Замените на реальный URL
       setProducts(response.data); // Сохраняем полученные данные в состоянии
     } catch (error) {
@@ -546,7 +544,7 @@ const LinksTable = () => {
   const fetchUserProfile = async () => {
     try {
       const response = await axios.get(
-        "https://app.vneshka.pro/api/v1/controlpanel/profile/me/test?cookie=9C72FEE9-DACE-4939-8520-FE58F7E2C5FF"
+        "https://app.vneshka.pro/api/v1/controlpanel/profile/me"
       ); // Замените на реальный URL
       setUserProfile(response.data);
     } catch (error) {
