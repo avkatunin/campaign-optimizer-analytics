@@ -144,3 +144,9 @@ button {
 .RowCampaign {
   min-width: 965px;
 }
+
+@media (min-width: 768px) {
+  .DisplayFlex {
+    display: flex;
+  }
+}

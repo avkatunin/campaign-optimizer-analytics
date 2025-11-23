@@ -402,7 +402,9 @@ const LinksTable = () => {
 
     //document.getElementById("auth").appendChild(tg);
     axios
-      .get("https://app.vneshka.pro/api/v1/controlpanel/profile/me")
+      .get(
+        "https://app.vneshka.pro/api/v1/controlpanel/profile/me/test?cookie=9C72FEE9-DACE-4939-8520-FE58F7E2C5FF"
+      )
       .then((response) => {
         setUserProfile(response.data);
         if (response.data.username == null) {
@@ -469,7 +471,7 @@ const LinksTable = () => {
     try {
       console.log("LinksTable");
       const response = await axios.get(
-        "https://app.vneshka.pro/api/v1/controlpanel/products"
+        "https://app.vneshka.pro/api/v1/controlpanel/products/test?cookie=9C72FEE9-DACE-4939-8520-FE58F7E2C5FF"
       ); // Замените на реальный URL
       setProducts(response.data); // Сохраняем полученные данные в состоянии
     } catch (error) {
@@ -544,7 +546,7 @@ const LinksTable = () => {
   const fetchUserProfile = async () => {
     try {
       const response = await axios.get(
-        "https://app.vneshka.pro/api/v1/controlpanel/profile/me"
+        "https://app.vneshka.pro/api/v1/controlpanel/profile/me/test?cookie=9C72FEE9-DACE-4939-8520-FE58F7E2C5FF"
       ); // Замените на реальный URL
       setUserProfile(response.data);
     } catch (error) {
@@ -936,7 +938,7 @@ const LinksTable = () => {
       <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-xl z-50 border-b border-gray-100 shadow-sm">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            <div className="DisplayFlex items-center gap-4">
               <Logo />
               <Link
                 to="https://t.me/vneshkapro"
@@ -950,7 +952,7 @@ const LinksTable = () => {
             </div>
 
             {userProfile.username != null ? (
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-4 ml-4">
                 <div className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary">
                   <Link2 className="w-4 h-4" />
                   <span className="text-sm font-medium">
@@ -1032,12 +1034,12 @@ const LinksTable = () => {
       {userProfile.username != null ? (
         <div className="container mx-auto px-6 pt-24 pb-20">
           <div className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
-            <div className="p-8 border-b border-gray-100 bg-gradient-to-r from-primary/20 via-primary/10 to-transparent flex justify-between items-center">
+            <div className="p-8 border-b border-gray-100 bg-gradient-to-r from-primary/20 via-primary/10 to-transparent DisplayFlex justify-between items-center">
               <div>
                 <h1 className="font-display text-2xl font-bold text-gray-900">
                   Ваши товары и рекламные кампании
                 </h1>
-                <p className="text-gray-600 mt-1">
+                <p className="text-gray-600 mt-1 mb-2">
                   Ведите учет рекламных кампаний и отслеживайте их эффективность
                 </p>
               </div>
@@ -1501,9 +1503,9 @@ const LinksTable = () => {
       ) : (
         <div className="container mx-auto px-6 pt-24 pb-20">
           <div className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
-            <div className="p-8 border-b border-gray-100 bg-gradient-to-r from-primary/20 via-primary/10 to-transparent flex justify-between items-center">
+            <div className="p-8 border-b border-gray-100 bg-gradient-to-r from-primary/20 via-primary/10 to-transparent DisplayFlex justify-between items-center">
               <div>
-                <h1 className="font-display text-2xl font-bold text-gray-900">
+                <h1 className="font-display text-xl font-bold text-gray-900">
                   Войдите с помощью Telegram для быстрого и надежного доступа
                 </h1>
                 <p className="text-gray-600 mt-1">
