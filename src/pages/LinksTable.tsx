@@ -242,7 +242,7 @@ const SortableCampaignRow = ({
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-white border border-gray-200 shadow-md transition-all hover:shadow-lg"
+      className="RowCampaign bg-white border border-gray-200 shadow-md transition-all hover:shadow-lg"
     >
       <div className="flex items-center p-4">
         <div
@@ -1323,7 +1323,7 @@ const LinksTable = () => {
                               </p>
                             </div>
                           ) : (
-                            <div className="ContainerCampaign bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                            <div className="ContainerCampaign bg-white rounded-xl border border-gray-200 shadow-sm">
                               <DndContext
                                 sensors={sensors}
                                 collisionDetection={closestCenter}
@@ -1337,10 +1337,7 @@ const LinksTable = () => {
                                   )}
                                   strategy={verticalListSortingStrategy}
                                 >
-                                  <div
-                                    className="bg-white border border-gray-200 shadow-md transition-all hover:shadow-lg flex"
-                                    style={{ minWidth: 765 }}
-                                  >
+                                  <div className="RowCampaign bg-white border border-gray-200 shadow-md transition-all hover:shadow-lg flex">
                                     <div className="w-[5%]"></div>
                                     <div className="flex flex-1 min-w-0 text-gray-500 text-sm p-4">
                                       Кампания
@@ -1384,7 +1381,7 @@ const LinksTable = () => {
                                             Данные для визуализации отсутствуют
                                           </div>
                                         ) : (
-                                          <div className="flex">
+                                          <div className="RowCampaign flex">
                                             <div className="w-[15%]"></div>
                                             <div className="p-4 w-full h-[360px]">
                                               <div className="flex flex-1 min-w-0 text-gray-500 text-sm p-4">
@@ -1429,7 +1426,7 @@ const LinksTable = () => {
                                         {dataCityViews.length === 0 ? (
                                           <div></div>
                                         ) : (
-                                          <div className="flex">
+                                          <div className="RowCampaign flex">
                                             <div className="w-[10%]"></div>
                                             <div className="p-4 w-full h-[480px]">
                                               <ResponsiveContainer

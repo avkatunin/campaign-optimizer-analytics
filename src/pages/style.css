@@ -137,12 +137,10 @@ button {
   }
 }
 
-@media (max-width: 768px) {
-  .ContainerCampaign {
-    min-width: 965px;
-  }
+.ContainerCampaign {
+  overflow-x: auto;
 }
 
-.ContainerCampaign {
-  min-width: none;
+.RowCampaign {
+  min-width: 965px;
 }
