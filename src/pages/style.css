@@ -136,3 +136,13 @@ button {
     transform: translateX(0);
   }
 }
+
+@media (max-width: 768px) {
+  .ContainerCampaign {
+    min-width: 965px;
+  }
+}
+
+.ContainerCampaign {
+  min-width: none;
+}

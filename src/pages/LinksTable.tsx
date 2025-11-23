@@ -2,14 +2,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-} from "@/components/ui/table";
-import {
   ChevronDown,
   Home,
   Plus,
@@ -962,7 +954,7 @@ const LinksTable = () => {
                 <div className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary">
                   <Link2 className="w-4 h-4" />
                   <span className="text-sm font-medium">
-                    Доступно рекламных кампаний: {userProfile.linksLimit}
+                    Доступно кампаний: {userProfile.linksLimit}
                   </span>
                 </div>
                 <div
@@ -1331,7 +1323,7 @@ const LinksTable = () => {
                               </p>
                             </div>
                           ) : (
-                            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                            <div className="ContainerCampaign bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                               <DndContext
                                 sensors={sensors}
                                 collisionDetection={closestCenter}
