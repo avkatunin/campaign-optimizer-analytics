@@ -593,10 +593,21 @@ const LinksTable = () => {
     }
   };
 
+  const urlRegex =
+    /^(https?:\/\/)?(www\.)?(wildberries\.ru|ozon\.ru|market\.yandex\.ru|megamarket\.ru|aliexpress\.ru|lamoda\.ru|avito\.ru)(\/[^\s?]*)?(\?[^\s]*)?(#\S*)?$/;
+
   const handleAddProduct = async () => {
+    document.getElementById("invalidUrl").style.display = "none";
     if (!newProduct.title || !newProduct.url) {
       toast.error("Пожалуйста, заполните все обязательные поля");
       return;
+    }
+
+    const isValid = urlRegex.test(newProduct.url);
+
+    if (!isValid) {
+      document.getElementById("invalidUrl").style.display = "block";
+      toast.error("Некорректная ссылка на товар с маркетплейса!");
     }
 
     const newProductObj: Product = {
@@ -906,6 +917,15 @@ const LinksTable = () => {
     minWidth: "765px",
   };
 
+  const invalidUrlStyle = {
+    display: "none",
+  };
+
+  const handleProductUrlChange = (e) => {
+    document.getElementById("invalidUrl").style.display = "none";
+    setNewProduct({ ...newProduct, url: e.target.value });
+  };
+
   const handleCampaignDragEnd = (event: DragEndEvent, productId: string) => {
     const { active, over } = event;
 
@@ -945,7 +965,7 @@ const LinksTable = () => {
                 className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span class="text-sm font-medium">Связаться с нами</span>
+                <span className="text-sm font-medium">Связаться с нами</span>
               </Link>
             </div>
 
@@ -1082,12 +1102,17 @@ const LinksTable = () => {
                       <Input
                         id="url"
                         value={newProduct.url}
-                        onChange={(e) =>
-                          setNewProduct({ ...newProduct, url: e.target.value })
-                        }
+                        onChange={handleProductUrlChange}
                         placeholder="https://example.com/product"
                         className="rounded-lg"
                       />
+                    </div>
+                    <div id="invalidUrl" style={invalidUrlStyle}>
+                      <div className="flex gap-2">
+                        <p className="text-gray-600 mt-1 mb-1 ">
+                          Ссылка на товар маркетплейса недействительна.
+                        </p>
+                      </div>
                     </div>
                   </div>
                   <button
