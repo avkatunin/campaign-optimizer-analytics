@@ -607,7 +607,8 @@ const LinksTable = () => {
 
     if (!isValid) {
       document.getElementById("invalidUrl").style.display = "block";
-      toast.error("Некорректная ссылка на товар с маркетплейса!");
+      toast.error("Ссылка на товар маркетплейса недействительна.");
+      return;
     }
 
     const newProductObj: Product = {
