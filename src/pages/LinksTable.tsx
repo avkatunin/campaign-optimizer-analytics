@@ -98,6 +98,7 @@ interface Product {
   url: string;
   campaignsCount: number;
   campaigns: Campaign[];
+  created: string;
 }
 
 interface UserProfile {
@@ -130,6 +131,11 @@ const SortableProductItem = ({
     transition,
   };
 
+  function localDateFormat(utcTimestamp: string) {
+    const dateObject = new Date(utcTimestamp);
+    return dateObject.toLocaleString();
+  }
+
   return (
     <div
       ref={setNodeRef}
@@ -149,6 +155,9 @@ const SortableProductItem = ({
           <h2 className="font-semibold text-lg text-gray-800 truncate">
             {product.title}
           </h2>
+          <div className="flex flex-1 min-w-0 text-gray-500 text-sm">
+            {localDateFormat(product.created)}
+          </div>
           <div className="flex items-center mt-1">
             <a
               href={product.url}
