@@ -1058,6 +1058,37 @@ const LinksTable = () => {
           </div>
         </div>
       </nav>
+      <nav className="mb-2 fixed bottom-0 w-full rounded-2xl border border-gray-200 bg-white/90 backdrop-blur-xl z-50 border-b border-gray-100 shadow-sm">
+        <div className="container mx-auto px-6 py-4">
+          <div className="DisplayFlex items-center justify-between">
+            <div className="flex items-center gap-4 mr-4">
+              <div className="text-sm bg-gradient-primary text-gray-600">
+                Наш сайт использует файлы cookies. Нажимая кнопку «Принять» или
+                продолжая пользоваться данным сайтом, вы соглашаетесь на
+                обработку файлов «Cookie».
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <a
+                rel="noreferrer"
+                className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary"
+                href="https://t.me/vneshkapro"
+                target="_blank"
+              >
+                <span className="text-sm font-medium">Принять</span>
+              </a>
+              <a
+                rel="noreferrer"
+                className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary"
+                href="https://t.me/vneshkapro"
+                target="_blank"
+              >
+                <span className="text-sm font-medium">Подробнее</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
 
       {userProfile.username != null ? (
         <div className="container mx-auto px-6 pt-24 pb-20">
