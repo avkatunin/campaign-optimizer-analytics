@@ -404,37 +404,19 @@ const SortableCampaignRow = ({
   );
 };
 
-function getCookie(name: string) {
-  const nameEQ = name + "=";
-  const decodedCookie = decodeURIComponent(document.cookie);
-  const ca = decodedCookie.split(";");
-
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) === " ") {
-      // Remove leading whitespace
-      c = c.substring(1);
-    }
-    if (c.indexOf(nameEQ) === 0) {
-      // Check if it starts with the cookie name
-      return c.substring(nameEQ.length, c.length); // Return the value
-    }
-  }
-  return ""; // Return empty string if cookie not found
-}
-
 const LinksTable = () => {
   useEffect(() => {
     //const tg = document.createElement('div');
     //tg.id = 'telegram';
 
     //document.getElementById("auth").appendChild(tg);
-    console.log(getCookie("cookieAgreement"));
-    if (getCookie("cookieAgreement") === "true") {
-      setIsCookieAgreementAccepted(true);
-    } else {
-      setIsCookieAgreementAccepted(false);
-    }
+    axios
+      .get("https://app.vneshka.pro/api/v1/controlpanel/cookie/agreement")
+      .then((response) => {
+        if (response.data.username == null) {
+          setIsCookieAgreementAccepted(response.data.result);
+        }
+      });
 
     axios
       .get("https://app.vneshka.pro/api/v1/controlpanel/profile/me")
