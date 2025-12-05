@@ -404,12 +404,38 @@ const SortableCampaignRow = ({
   );
 };
 
+function getCookie(name: string) {
+  const nameEQ = name + "=";
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const ca = decodedCookie.split(";");
+
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === " ") {
+      // Remove leading whitespace
+      c = c.substring(1);
+    }
+    if (c.indexOf(nameEQ) === 0) {
+      // Check if it starts with the cookie name
+      return c.substring(nameEQ.length, c.length); // Return the value
+    }
+  }
+  return ""; // Return empty string if cookie not found
+}
+
 const LinksTable = () => {
   useEffect(() => {
     //const tg = document.createElement('div');
     //tg.id = 'telegram';
 
     //document.getElementById("auth").appendChild(tg);
+    console.log(getCookie("cookieAgreement"));
+    if (getCookie("cookieAgreement") === "true") {
+      setIsCookieAgreementAccepted(true);
+    } else {
+      setIsCookieAgreementAccepted(false);
+    }
+
     axios
       .get("https://app.vneshka.pro/api/v1/controlpanel/profile/me")
       .then((response) => {
@@ -539,6 +565,8 @@ const LinksTable = () => {
   const [isUserPhotoAvaliable, setIsUserPhotoAvaliable] = useState(false);
   const [isAddProductDialogOpen, setIsAddProductDialogOpen] = useState(false);
   const [isAddCampaignDialogOpen, setIsAddCampaignDialogOpen] = useState(false);
+  const [isCookieAgreementDialogOpen, setIsCookieAgreementDialogOpen] =
+    useState(false);
   const [isGeneratedLinkDialogOpen, setIsGeneratedLinkDialogOpen] =
     useState(false);
   const [generatedLink, setGeneratedLink] = useState("");
@@ -547,6 +575,8 @@ const LinksTable = () => {
   const [isRefreshingStats, setIsRefreshingStats] = useState<string | null>(
     null
   );
+  const [isCookieAgreementAccepted, setIsCookieAgreementAccepted] =
+    useState(false);
 
   const [userProfile, setUserProfile] = useState<UserProfile>({});
 
@@ -961,6 +991,13 @@ const LinksTable = () => {
     }
   };
 
+  const cookiesAccepted = async () => {
+    await axios.post(
+      "https://app.vneshka.pro/api/v1/controlpanel/cookie/agreement"
+    );
+    setIsCookieAgreementAccepted(true);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-xl z-50 border-b border-gray-100 shadow-sm">
@@ -1058,37 +1095,77 @@ const LinksTable = () => {
           </div>
         </div>
       </nav>
-      <nav className="mb-2 fixed bottom-0 w-full rounded-2xl border border-gray-200 bg-white/90 backdrop-blur-xl z-50 border-b border-gray-100 shadow-sm">
-        <div className="container mx-auto px-6 py-4">
-          <div className="DisplayFlex items-center justify-between">
-            <div className="flex items-center gap-4 mr-4">
-              <div className="text-sm bg-gradient-primary text-gray-600">
-                Наш сайт использует файлы cookies. Нажимая кнопку «Принять» или
-                продолжая пользоваться данным сайтом, вы соглашаетесь на
-                обработку файлов «Cookie».
+      {isCookieAgreementAccepted === false ? (
+        <nav className="mb-2 fixed bottom-0 w-full rounded-2xl border border-gray-200 bg-white/90 backdrop-blur-xl z-50 border-b border-gray-100 shadow-sm">
+          <div className="container mx-auto px-6 py-4">
+            <div className="DisplayFlex items-center justify-between">
+              <div className="flex items-center gap-4 mr-4">
+                <div className="text-sm bg-gradient-primary text-gray-600">
+                  Наш сайт использует файлы cookies. Нажимая кнопку «Принять»
+                  или продолжая пользоваться данным сайтом, вы соглашаетесь на
+                  обработку файлов «Cookie».
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <button
+                  className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary"
+                  onClick={cookiesAccepted}
+                >
+                  <span className="text-sm font-medium">Принять</span>
+                </button>
+                <Dialog
+                  open={isCookieAgreementDialogOpen}
+                  onOpenChange={setIsCookieAgreementDialogOpen}
+                >
+                  <DialogTrigger asChild>
+                    <button className="text-sm font-medium flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary">
+                      Подробнее
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[600px] text-sm">
+                    <DialogHeader>
+                      <DialogTitle className="text-m font-display">
+                        Политика использования файлов «Cookie»
+                      </DialogTitle>
+                    </DialogHeader>
+                    <p className="text-gray-500">
+                      Файлы «Cookie» представляют собой небольшие фрагменты
+                      информации, которые размещаются на вашем компьютере при
+                      посещении определенных веб-сайтов. Файлы «Cookie»
+                      используются для улучшения персонализации и
+                      интерактивности в предоставлении информации на сайте.
+                    </p>
+                    <p className="text-gray-500">
+                      При первом посещении данного сайта, с помощью нового
+                      браузера или в режиме приватного просмотра предоставляется
+                      баннер, запрашивающий ваше согласие на обработку файлов
+                      «Cookie» в соответствии с требованиями законодательства.
+                      Нажав кнопку «Принять» или продолжая пользоваться данным
+                      сайтом, вы соглашаетесь на размещение файлов «Cookie».
+                    </p>
+                    <p className="text-gray-500">
+                      Использование файлов «Cookie» может быть отключено в
+                      интернет-обозревателе (просим вас ознакомиться с данной
+                      возможностью в разделе «Справка» вашего браузера). При
+                      отключении использования файлов «Cookie» могут быть
+                      недоступны некоторые функции сайта. Сторонние организации
+                      не имеют доступа к файлам «Cookie» нашего сайта.
+                    </p>
+                    <p className="text-gray-500">
+                      Сторонние организации (например, Microsoft, Google, Yandex
+                      и т.п.), которые размещают собственные файлы «Cookie»,
+                      включая ваш браузер, имеют собственные политики
+                      использования файлов «Cookie».
+                    </p>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
-            <div className="flex items-center gap-4">
-              <a
-                rel="noreferrer"
-                className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary"
-                href="https://t.me/vneshkapro"
-                target="_blank"
-              >
-                <span className="text-sm font-medium">Принять</span>
-              </a>
-              <a
-                rel="noreferrer"
-                className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary"
-                href="https://t.me/vneshkapro"
-                target="_blank"
-              >
-                <span className="text-sm font-medium">Подробнее</span>
-              </a>
-            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      ) : (
+        <div></div>
+      )}
 
       {userProfile.username != null ? (
         <div className="container mx-auto px-6 pt-24 pb-20">
