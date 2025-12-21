@@ -145,8 +145,18 @@ button {
   min-width: 965px;
 }
 
+.VideoStyle {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
 @media (min-width: 768px) {
   .DisplayFlex {
     display: flex;
+  }
+
+  .VideoStyle {
+    padding-left: 4rem;
+    padding-right: 4rem;
   }
 }

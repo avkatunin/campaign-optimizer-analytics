@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ReactPlayer from "react-player";
 import myVideo from "@/assets/instruction.mp4";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -1639,16 +1640,24 @@ const LinksTable = () => {
               </div>
               <div id="telegram"></div>
             </div>
-            <video
-              width="100%"
-              height="auto"
-              controls
-              preload="metadata"
-              //poster="/path-to-preview-image.jpg" // Картинка до начала воспроизведения
-            >
-              <source src={myVideo} type="video/mp4" />
-              Ваш браузер не поддерживает встроенные видео.
-            </video>
+          </div>
+          <div className="VideoStyle mt-8">
+            <div></div>
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
+              <video
+                width="100%"
+                height="auto"
+                controls
+                preload="metadata"
+                autoPlay
+                loop
+                muted
+                playsInline
+              >
+                <source src={myVideo} type="video/mp4" />
+                Ваш браузер не поддерживает встроенные видео.
+              </video>
+            </div>
           </div>
         </div>
       )}
