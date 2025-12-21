@@ -1230,11 +1230,30 @@ const LinksTable = () => {
 
           <div className="mt-8 space-y-4">
             {products.length === 0 ? (
-              <div className="text-center py-12 bg-white rounded-2xl border border-gray-200 shadow-md">
-                <p className="text-gray-500">
-                  У вас пока нет добавленных товаров. Нажмите "Добавить товар",
-                  чтобы начать.
-                </p>
+              <div>
+                <div className="text-center py-12 bg-white rounded-2xl border border-gray-200 shadow-md">
+                  <p className="text-gray-500">
+                    У вас пока нет добавленных товаров. Нажмите "Добавить
+                    товар", чтобы начать.
+                  </p>
+                </div>
+                <div className="VideoStyle mt-2">
+                  <div className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
+                    <video
+                      width="100%"
+                      height="auto"
+                      controls
+                      preload="metadata"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                    >
+                      <source src={myVideo} type="video/mp4" />
+                      Ваш браузер не поддерживает встроенные видео.
+                    </video>
+                  </div>
+                </div>
               </div>
             ) : (
               <DndContext
@@ -1642,7 +1661,6 @@ const LinksTable = () => {
             </div>
           </div>
           <div className="VideoStyle mt-8">
-            <div></div>
             <div className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
               <video
                 width="100%"
