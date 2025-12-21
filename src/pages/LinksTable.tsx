@@ -1236,6 +1236,9 @@ const LinksTable = () => {
                     У вас пока нет добавленных товаров. Нажмите "Добавить
                     товар", чтобы начать.
                   </p>
+                  <p className="text-gray-500">
+                    Ознакомьтесь с видеоинструкцией по использованию сервиса.
+                  </p>
                 </div>
                 <div className="VideoStyle mt-2">
                   <div className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
