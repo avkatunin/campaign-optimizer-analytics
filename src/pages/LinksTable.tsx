@@ -1228,7 +1228,7 @@ const LinksTable = () => {
             </div>
           </div>
 
-          <div className="mt-8 space-y-4">
+          <div className="mt-4 space-y-4">
             {products.length === 0 ? (
               <div>
                 <div className="text-center py-12 bg-white rounded-2xl border border-gray-200 shadow-md">
@@ -1240,7 +1240,7 @@ const LinksTable = () => {
                     Ознакомьтесь с видеоинструкцией по использованию сервиса.
                   </p>
                 </div>
-                <div className="VideoStyle mt-2">
+                <div className="VideoStyle mt-4">
                   <div className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
                     <video
                       width="100%"
