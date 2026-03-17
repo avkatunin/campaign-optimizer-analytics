@@ -1737,15 +1737,15 @@ const LinksTable = () => {
             </DialogTitle>
           </DialogHeader>
           <div className="py-4">
-            <p className="text-gray-600 mb-4">1 ссылка: 299₽</p>
+            <p className="text-gray-600 mb-4">1 ссылка: 149₽</p>
             <p className="text-gray-600 mb-4">
-              5 ссылок: 1 349₽ <span style={myStyle}>1 495₽</span>
+              5 ссылок: 649₽ <span style={myStyle}>745₽</span>
             </p>
             <p className="text-gray-600 mb-4">
-              10 ссылок: 2 399₽ <span style={myStyle}>2 990₽ </span>
+              10 ссылок: 1 199₽ <span style={myStyle}>1 490₽ </span>
             </p>
             <p className="text-gray-600 mb-4">
-              20 ссылок: 4 199₽ <span style={myStyle}>5 980₽</span>
+              20 ссылок: 1 999₽ <span style={myStyle}>2 980₽</span>
             </p>
           </div>
           <button
